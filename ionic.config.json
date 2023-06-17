@@ -1,0 +1,8 @@
+{
+  "name": "Ecolox",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "bc429e94"
+}
