@@ -1,0 +1,19 @@
+.btn-menu {
+    @apply rounded-full border-2 border-slate-500 bg-slate-300 mt-3 lg:text-lg text-base font-bold cursor-default w-full text-center lg:min-w-[200px] w-20 hover:ml-1 h-12
+}
+
+.btn-menu:hover {
+    cursor: pointer;
+}
+
+.total {
+     @apply mt-6
+}
+
+.total, .maison {
+    @apply opacity-40
+}
+
+.internet {
+    @apply hover:border-slate-800 active:bg-slate-400 cursor-pointer
+}
