@@ -180,16 +180,16 @@ export class InternetComponent implements OnInit, AfterContentInit {
     const  lineButton = document.getElementById('lineButton');
     
     barButton?.addEventListener('click', () => {
-      barButton.className = 'btn-graph activated';     
+      barButton.className = 'btn-menu-graph activated';     
       if (lineButton) {
-        lineButton.className = 'btn-graph';
+        lineButton.className = 'btn-menu-graph';
       }
     });
 
     lineButton?.addEventListener('click', () => {
-      lineButton.className = 'btn-graph activated';     
+      lineButton.className = 'btn-menu-graph activated';     
       if (barButton) {
-        barButton.className = 'btn-graph';
+        barButton.className = 'btn-menu-graph';
       }
     });
   }

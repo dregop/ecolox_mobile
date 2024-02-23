@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+// import * as L from "leaflet";
+import { filter, map, tap } from "rxjs/operators";
+import { BackgroundGeolocationService } from 'src/app/services/background-geolocation.service';
 
 @Component({
   selector: 'app-travel',
@@ -6,6 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./travel.component.scss']
 })
 export class TravelComponent implements OnInit {
+  // options: L.MapOptions = { zoom: 6.5, center: [52.5900535, 9.00511] };
+  // baseLayer: L.Layer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+  
+  // marker will be defined later by the first location update
+  // marker!: L.Marker;
+  
+  // // using rxjs pipe to aggregate tasks and output the marker
+  // marker$ = this.geolocation.position$.pipe(
+  //   filter((latLng) => latLng != undefined),
+  //   tap((latLng) => this.updateMarker(latLng)),
+  //   map(() => this.marker as any),
+  // );
+
+  // geolocation service you just created
+  constructor(private geolocation: BackgroundGeolocationService) {}
   
   ngOnInit(): void {
 
@@ -73,5 +91,13 @@ export class TravelComponent implements OnInit {
     }
   }
 
+  // updateMarker(latLng: L.LatLng) {
+  //   if (this.marker == undefined) this.createMarker(latLng);
+  //   this.marker.setLatLng(latLng);
+  // }
+  
+  // createMarker(latLng: L.LatLng) {
+  //   this.marker = L.marker(latLng);
+  // }
 
 }

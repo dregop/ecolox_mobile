@@ -1,14 +1,11 @@
 .btn-menu {
-    @apply rounded-full border-2 border-slate-500 bg-slate-300 mt-3 lg:text-lg text-base font-bold cursor-default w-full text-center lg:min-w-[200px] w-20 hover:ml-1 h-12
+    @apply rounded-full border-2 border-slate-500 bg-slate-300 lg:text-lg text-base font-bold cursor-default text-center w-20 h-14 m-1
 }
 
 .btn-menu:hover {
     cursor: pointer;
 }
 
-.total {
-     @apply mt-6
-}
 
 .total, .maison {
     @apply opacity-40

@@ -47,7 +47,6 @@ import { TravelComponent } from './pages/travel/travel.component';
     TravelComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

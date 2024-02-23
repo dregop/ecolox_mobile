@@ -862,7 +862,7 @@ export class LineChartComponent implements OnInit {
       let start_date = new Date(this.dataDrawnCo2TimeSerie[0].date);
       let end_date = new Date(this.dataDrawnCo2TimeSerie[this.dataDrawnCo2TimeSerie.length - 1].date);
       // TODO: issue with month, i have to add 1
-      time_range.innerHTML = start_date.getDate() + '/' + (start_date.getMonth() + 1) + '/' + start_date.getFullYear() + ' - ' + end_date.getDate() + '/' + (end_date.getMonth() + 1) + '/' + end_date.getFullYear();
+      time_range.innerHTML = start_date.getDate() + '/' + (start_date.getMonth() + 1) + '/' + start_date.getFullYear() + ' - Aujourd\'hui'
 
       if (start_date.getDate() === end_date.getDate() && 
       start_date.getMonth() === end_date.getMonth()) {
