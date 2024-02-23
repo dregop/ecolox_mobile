@@ -1,40 +1,35 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from "rxjs";
-import {
-  BackgroundGeolocationPlugin,
-  ConfigureOptions,
-  Location,
-} from "cordova-background-geolocation-plugin";
 
 // access to its functions
-declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
+// declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackgroundGeolocationService {
 
-  private config: ConfigureOptions = {
-    // shared config
-    maxLocations: 100,
-    distanceFilter: 50,
-    stationaryRadius: 100,
-    desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
-    locationProvider: BackgroundGeolocation.RAW_PROVIDER,
+  // private config: ConfigureOptions = {
+  //   // shared config
+  //   maxLocations: 100,
+  //   distanceFilter: 50,
+  //   stationaryRadius: 100,
+  //   desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
+  //   locationProvider: BackgroundGeolocation.RAW_PROVIDER,
   
-    // android specific config
-    interval: 1000,
-    startForeground: true,
-    notificationsEnabled: true,
-    notificationTitle: "Tracking",
-    notificationText: "Your location is being tracked!",
-    notificationIconColor: "#424242",
-    notificationIconSmall: "ic_location",
+  //   // android specific config
+  //   interval: 1000,
+  //   startForeground: true,
+  //   notificationsEnabled: true,
+  //   notificationTitle: "Tracking",
+  //   notificationText: "Your location is being tracked!",
+  //   notificationIconColor: "#424242",
+  //   notificationIconSmall: "ic_location",
   
-    // ios specific config
-    saveBatteryOnBackground: true,
-    pauseLocationUpdates: false,
-  };
+  //   // ios specific config
+  //   saveBatteryOnBackground: true,
+  //   pauseLocationUpdates: false,
+  // };
 
     // an observable that will be used later in this ariticle
   // public position$ = new BehaviorSubject<L.LatLng>(undefined as any);
