@@ -1,26 +1,40 @@
 <div id="overlay" class="absolute top-0 left-0 w-full h-full bg-slate-800 opacity-70 z-50">
 </div>
 
+
+
+
+<div class="flex absolute right-1 bottom-0 top-0 m-auto z-50" *ngIf="!displayMess3">
+  <img (click)="next()" src="../../../assets/next.svg" alt="Suivant image" class="nextButton w-12" title="Suivant">
+</div>
+
+<div class="flex absolute right-0 bottom-8 left-0 m-auto z-50">
+  <img (click)="closeMessageOverlay()" id="close_button" class=" w-16 m-auto" src="../../../assets/cross.svg">
+</div>
+
+<div class="flex absolute left-1 bottom-0 top-0 m-auto z-50" *ngIf="!displayMess1">
+  <img (click)="previous()" src="../../../assets/previous.svg" alt="Précédent" class="m-auto prevButton w-12" title="Précédent">
+
+</div>
+
+
 <div id="message">
     <div class="basis-1/6 flex flex-row items-center">
         <img class="border-4 rounded-full" src="../../assets/buddy.png" width="80">
-        <span class="lg:text-xl text-base font-semibold ml-4">Salut jeune padawane, <br> Je suis Buddy, ton pote écolo !</span>
+        <span class="font-semibold ml-4 mt-2 bg-slate-100 rounded-lg p-2">Salut jeune padawane, <br> Je suis Buddy, ton pote écolo !</span>
     </div>
   <div class="basis-5/6 message_container lg:text-xl">
-    <div class="flex flex-row items-center mt-8 text-left">
-      <img src="../../../assets/logo_planete.png" width="150" height="150" alt="Logo Eco Buddy" class="basis-1/4">
-      <p class="basis-3/4">
-        Dans cette nouvelle aventure tu ne vas pas devoir affronter des monstres démoniaques et autres créatures malfaisantes. Et non c’est tes émissions de Co2 que tu vas affronter ! Alors en avant et place à la sobriété ! 
-        <br><br>
-        Notre planète se réchauffe ! Nous recherchons des braves gens afin de nous aider à contrer ce terrible événement. <br>
-        Si tu te sens d'attaque pour relever les défis, clique sur la flêche bleu à droite !
+    <div class="flex flex-col items-center mt-8 text-left">
+      <p class="basis-2/6 bg-slate-100 rounded-lg p-2">
+        Dans cette nouvelle aventure tu ne vas pas devoir affronter des monstres démoniaques et autres créatures malfaisantes. Et non c’est tes émissions de Co2 que tu vas affronter !
       </p>
+      <br>
+      <p class="basis-2/6 bg-slate-100 rounded-lg p-2 mb-2">
+        Notre planète se réchauffe ! <span class="font-semibold">Sauras-tu répondre à l'appel ?</span>
+      </p>
+      <img src="../../../assets/logo_planete.png" width="150" height="150" alt="Logo Eco Buddy" class="basis-1/6 p-4">
     </div> 
 
-    <button (click)="closeMessageOverlay()" id="close_button" class="absolute bottom-0 left-0 right-0 m-auto w-14"><img src="../../../assets/close.svg"></button>
-
-
-    <img (click)="next('message', 'message2')" src="../../../assets/next.svg" alt="Suivant image" class="absolute right-0 bottom-0 top-0 left-0 m-auto nextButton w-12" title="Suivant">
 
     <!-- <div class="flex lg:flex-row flex-col items-center">
         <div class="levelDiv" id="debutant" (click)="selectLevel('debutant')">
@@ -67,39 +81,34 @@
   </div>
 </div>
 
+
+
 <div id="message2" style="display: none;">
   <div class="basis-1/6 flex flex-row items-center">
     <img class="border-4 rounded-full" src="../../assets/buddy.png" width="80">
-    <span class="lg:text-xl text-base font-semibold ml-4">Pour devenir un héros et sauver la planète, tu vas devoir affronter de nombreux défis. Voyons d'abord ensemble les règles de bases pour un débutant comme toi (Il n'y a pas de mal, j'étais comme toi au début gros nulle).</span><br>
+    <span class="font-semibold ml-4 bg-slate-100 rounded-lg p-2 mt-2">Super ! Je t'explique les règles du jeu :</span><br>
 
   </div>
 
   <div class="basis-5/6 message_container lg:text-xl">
-    <div class="flex flex-row text-left h-full mt-8">
-      <div class="basis-1/4">
-        <img src="../../../assets/logo_planete.png" alt="Logo Eco Buddy">
-      </div>
-
+    <div class="flex flex-col text-left h-full mt-8">
       <div class="basis-3/4 h-full">
-        <div class="overflow-auto h-3/4">
-          <p>
-            On va commencer large : <br>
+          <p class="bg-slate-100 rounded-lg p-2">
             <span class="lg:text-2xl text-base font-semibold">Ton Crédit carbonne est de <span class="text-red-600 font-bold">{{ tonnes }} Tonnes de CO<sub>2</sub>e</span> / An.</span>
             <!-- <span class="lg:text-base text-sm text-slate-800">Ce qui équivaut à vivre une sur une planete à +<span class="text-red-600 font-semibold">{{ degres }} degrés</span> par rapport à la température des années 1900<br></span> -->
             C'est tout ce que tu peux émettres en une année ! <br>
-            Les plus valeureux d'entre nous on maintenant des crédits carbonnes approchant les 2 Tonnes de CO<sub>2</sub>e / An mais tu n'en es pas encore la.
+            Les plus valeureux d'entre nous on maintenant des crédits carbonnes inférieur à 3 Tonnes de CO<sub>2</sub>e / An.
           </p>
           <br>
-          <p>
-            6 Tonnes de Co2/ An équivaut à vivre une sur une planete à +<span class="text-red-600 font-semibold">{{ degres }} degrés</span> par rapport à la température des années 1900. Evidemment on préferait éviter ça, mais puisque tu débutes, on commence doucement tu vois :D
+          <p class="bg-slate-100 rounded-lg p-2">
+            6 Tonnes de Co2/ An équivaut à vivre une sur une planete à +<span class="text-red-600 font-semibold">{{ degres }} degrés</span> par rapport à la température des années 1900.
           </p>
           <br>
-          <p>
-            Chaque catégories sur le site (INTERNET, ACHATS, MAISON, DEPLACEMENT) émet des quantités très différentes de CO2. Internet par exemple émet beaucoup moins que les autres catégories. Néanmoins il est intéressant de savoir que cela contribue quand même (de 4 à 6% environ par rapport au GLOBAL).
+          <p class="bg-slate-100 rounded-lg p-2 mb-2">
+            Chaque catégories (sur l'application : INTERNET, ACHATS, MAISON, DEPLACEMENT) émet des quantités très différentes de CO2. Internet par exemple émet beaucoup moins que les autres catégories (de 4 à 6% environ par rapport au GLOBAL).
           </p>
+          <img src="../../../assets/logo_planete.png" width="120" height="120" alt="Logo Eco Buddy" class="m-auto m-4">
         </div>
-
-      </div>
     </div>
     
     <!-- <p>
@@ -118,12 +127,6 @@
         ACHATS : <input type="number" min="1" [max]="achatsMax" step="1" [(ngModel)]="achats" (ngModelChange)="changeValue('achats')"> %<br>
         INTERNET : <input type="number" min="1" [max]="10" step="1" [(ngModel)]="internet" (ngModelChange)="changeValue('internet')"> % Max : 10%<br>
     </p> -->
-
-    <button (click)="closeMessageOverlay()" id="close_button" class="absolute bottom-0 left-0 right-0 m-auto w-14"><img src="../../../assets/close.svg"></button>
-
-    <img (click)="previous('message2', 'message')" src="../../../assets/previous.svg" alt="Précédent" class="absolute left-0 bottom-0 top-0 left-0 m-auto prevButton w-12" title="Précédent">
-
-    <img (click)="next('message2', 'message3')" src="../../../assets/next.svg" alt="Suivant image" class="absolute right-0 bottom-0 top-0 left-0 m-auto nextButton w-12" title="Suivant">
     
     <!-- <div class="flew flex-row items-center">
         <img src="../../../assets/previous.svg" alt="Précédent" width="50px" class="inline" title="Précédent" id="previousImg" (click)="previous()">
@@ -136,20 +139,18 @@
 
   <div id="message3" style="display: none;">
     <div class="message_container">
-      <h2 class="lg:text-xl text-base font-bold mb-6 uppercase mt-4"><img src="../../assets/crossed-swords.svg" alt="Avion" height="30px" width="30px" class="inline mr-1"> Défis
+      <h2 class="text-base font-bold mb-6 uppercase mt-4 text-center"><img src="../../assets/crossed-swords.svg" alt="Avion" height="30px" width="30px" class="inline mr-1"> Défis
         pour passer au niveau suivant !</h2>
 
         <div class="flex flex-row w-full items-center mb-4">
-          <div class="basis-1/6 flex flex-row-reverse justify-center">
-            <span class="text-lg mr-2 font-semibold">Débutant</span>
-            <img src="../../assets/medal-debutant.svg" width="30px" height="30px">
+          <div class="basis-1/6 flex flex-row-reverse justify-center p-1">
+            <img src="../../../assets/debutant.svg" width="35px" height="35px">
           </div>
           <div class="basis-4/6 bg-gray-200 rounded-full dark:bg-gray-700">
             <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 20%"> 20%</div>
           </div>
-          <div class="basis-1/6 flex flex-row-r justify-center">
-            <span class="text-lg mr-2 font-semibold">Apprenti</span>
-            <img src="../../assets/medal-apprenti.svg" width="30px" height="30px">
+          <div class="basis-1/6 flex flex-row-r justify-center p-1">
+            <img src="../../../assets/apprenti.svg" width="40px" height="40px">
           </div>
         </div>
 
@@ -160,7 +161,7 @@
 
             <div class="div_defi">
               <img class="w-8"  src="../../../assets/check.svg">
-              <span class="ml-8">- - - Démarrer les activités sur au moins une catégorie</span>
+              <span class="ml-8">- - - Démarrer le suivi sur au moins une catégorie</span>
             </div>
             <div class="div_defi">
               <img class="w-6"  src="../../../assets/cross.svg">
@@ -214,12 +215,6 @@
             </div>
             </fieldset>     
         </div>
-
-
-
-      <button (click)="closeMessageOverlay()" id="close_button" class="absolute bottom-0 left-0 right-0 m-auto w-14"><img src="../../../assets/close.svg"></button>
-
-      <img (click)="previous('message3', 'message2')" src="../../../assets/previous.svg" alt="Précédent" class="absolute left-0 bottom-0 top-0 left-0 m-auto prevButton w-12" title="Précédent">
   
     </div>
 </div>

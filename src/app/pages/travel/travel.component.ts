@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // import * as L from "leaflet";
 import { filter, map, tap } from "rxjs/operators";
 import { BackgroundGeolocationService } from 'src/app/services/background-geolocation.service';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-travel',
@@ -31,7 +32,7 @@ export class TravelComponent implements OnInit {
 
     const options = {
       enableHighAccuracy: true,
-      timeout: 10000,
+      timeout: 5000,
     };
 
       if (x) {
@@ -88,6 +89,28 @@ export class TravelComponent implements OnInit {
         function (position2) {
           var speed = calculateSpeed(t1 / 1000, position1.coords.latitude, position1.coords.longitude, Date.now() / 1000, position2.coords.latitude, position2.coords.longitude);
         });
+    }
+    
+
+    function getSpeed(pos: any) {
+      const speedSpan = document.getElementById('speed');
+      if (pos && pos.coords && speedSpan) {
+        console.log('Current position:', pos.coords.speed);
+        speedSpan.innerHTML = pos.coords.speed + ' km/h';
+      }
+
+    }
+
+    setInterval(async () => {
+      await Geolocation.watchPosition(options, getSpeed);
+    }, 5000);
+
+  }
+
+  public displayChallenges() {
+    const overlay_message = document.getElementById('overlay_message');
+    if (overlay_message) {
+      overlay_message.style.display = 'block';
     }
   }
 

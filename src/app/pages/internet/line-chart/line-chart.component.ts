@@ -55,10 +55,10 @@ export class LineChartComponent implements OnInit {
         if (features && features.level) {
           this.userFeatures = features;
         } else {
-          const overlay_message = document.getElementById('overlay_message');
-          if (overlay_message) {
-            overlay_message.style.display = 'block';
-          }
+          // const overlay_message = document.getElementById('overlay_message');
+          // if (overlay_message) {
+          //   overlay_message.style.display = 'block';
+          // }
         }
       },
       error: (err) => console.log(err.message)
@@ -338,7 +338,7 @@ export class LineChartComponent implements OnInit {
       }
     });
 
-    const date_filters = document.getElementById('date-filters');
+    const date_filters = document.getElementById('filters');
     const buttons = date_filters?.getElementsByTagName('button');
     const rightButtonDay = document.getElementById('right-button-day');
     const leftButtonDay = document.getElementById('left-button-day');
@@ -603,9 +603,9 @@ export class LineChartComponent implements OnInit {
 
     // Define the axes
     const xAxis = (g: any, x: any) => g
-    .call(d3.axisBottom(x).tickFormat(this.graphService.multiFormat).tickPadding(width / 80));
+    .call(d3.axisBottom(x).ticks(5).tickFormat(this.graphService.multiFormat).tickPadding(width / 80));
     var yAxis = (g: any, y: any) => g
-    .call(d3.axisLeft(y).tickPadding(height / 80).tickSize(-15000));
+    .call(d3.axisLeft(y).ticks(5).tickPadding(height / 80).tickSize(-15000));
   
     this.graphService.scaleXYDomain(this.dataDrawnCo2TimeSerie, this.chartProps.x, this.chartProps.y);
   
@@ -875,8 +875,10 @@ export class LineChartComponent implements OnInit {
   }
 
   public isDayButtonActivated(): boolean {
+    const hideButton = document.getElementById('hide');
+    const showButton = document.getElementById('show');
     const  dayButton = document.getElementById('day');
-    if (dayButton?.className.includes('activated')) {
+    if (dayButton?.className.includes('activated') && hideButton) {
       return true;
     } else {
       return false;

@@ -51,29 +51,14 @@
     </div>
 </div>
 
-<div id="filters" class="absolute right-0 p-1 flex flex-col top-24 max-h-[400px] overflow-auto bg-slate-100 rounded-lg">
-    <div>
-        <button class="btn-graph" id="zoomButton" title="Zoomer">
-            <img src="../../assets/zoom.svg" alt="Zoom" width="25px" height="25px">
-        </button>
-        <button class="btn-graph" id="global_data" title="Données moyennes de tous les utilisateurs">
-            <img src="../../assets/earth.svg" width="25px" height="25px" alt="Bouton moyenne globale">
-        </button>
-        <button class="btn-graph" id="treashold">
-            <img src="../../../assets/avatar_Seuil.png" width="25px" height="25px" alt="Seuil à ne pas dépasser" title="Seuil à ne pas dépasser">
-        </button>
-        <!-- <button class="btn-graph" id="personal_average">
-            <img src="../../../assets/average.svg" width="25px" height="25px" alt="Moyenne personnelle" title="Moyenne personnelle">
-        </button> -->
-    </div>
-
-    <div id="date-filters">
+<div cdkDrag id="filters" class="absolute right-0 p-1 flex flex-col bottom-[-70px] max-h-[400px] overflow-auto bg-slate-100 rounded-lg items-end">
+    <div class="flex flex-row">
         <div class="items-center flex flex">
             <button class="btn-graph" id="left-button-day" title="Jour d'avant"><img src="../../../assets/left.svg" alt="Gauche" width="15px"></button>
             <button class="btn-graph" id="day" title="Données du jour">Jour</button>
             <button class="btn-graph" id="right-button-day" title="Jour d'avant"><img src="../../../assets/right.svg" alt="Gauche" width="15px"></button>
         </div>
-        <div class="text-sm lg:mb-4 text-orange-400" *ngIf="isDayButtonActivated()">
+        <!-- <div class="text-sm lg:mb-4 text-orange-400">
             <input type="checkbox" class="days_of_week" name="monday" />
             <label for="monday" class="text-red-400">Lundi</label><br>
             <input type="checkbox" class="days_of_week" name="tuesday" />
@@ -88,7 +73,7 @@
             <label for="saturday" class="text-purple-400">Samedi</label><br>
             <input type="checkbox" class="days_of_week" name="sunday" />
             <label for="sunday" class="text-rose-400">Dimanche</label>
-        </div>
+        </div> -->
         <div class="items-center flex flex">
             <!-- <button class="btn-graph" id="left-button-week" title="Jour d'avant"><img src="../../../assets/left.svg" alt="Gauche" width="15px"></button> -->
             <button class="btn-graph" id="week" title="Données de la semaine">Semaine</button>
@@ -105,9 +90,28 @@
             <!-- <button class="btn-graph" id="right-button-year" title="Jour d'avant"><img src="../../../assets/right.svg" alt="Gauche" width="15px"></button> -->
         </div>
 
-        
     </div>
-    <div class="text-left">
-        <toggle-button [buttonName]="'FILTRES'" [classNameToToggle]="'btn-graph'"></toggle-button>
+
+    <div class="flex flex-row justify-evenly w-full items-center">
+        <div class="flex flex-row">
+            <button class="btn-graph" id="zoomButton" title="Zoomer">
+                <img src="../../assets/zoom.svg" alt="Zoom" width="25px" height="25px">
+            </button>
+            <button class="btn-graph" id="global_data" title="Données moyennes de tous les utilisateurs">
+                <img src="../../assets/earth.svg" width="25px" height="25px" alt="Bouton moyenne globale">
+            </button>
+            <button class="btn-graph" id="treashold">
+                <img src="../../../assets/avatar_Seuil.png" width="25px" height="25px" alt="Seuil à ne pas dépasser" title="Seuil à ne pas dépasser">
+            </button>
+            <!-- <button class="btn-graph" id="personal_average">
+                <img src="../../../assets/average.svg" width="25px" height="25px" alt="Moyenne personnelle" title="Moyenne personnelle">
+            </button> -->   
+        </div>
+
+        <img src="../../../../assets/move-arrow.svg" alt="Déplace" class="w-8">   
+        
+        <div>
+            <toggle-button [buttonName]="'FILTRES'" [classNameToToggle]="'btn-graph'"></toggle-button>
+        </div>  
     </div>
 </div>   

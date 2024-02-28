@@ -248,4 +248,13 @@ export class InternetComponent implements OnInit, AfterContentInit {
       return false;
     }
   }
+
+  public displayChallenges() {
+    const overlay_message = document.getElementById('overlay_message');
+    if (overlay_message) {
+      overlay_message.style.display = 'block';
+    }
+  }
 }
+
+

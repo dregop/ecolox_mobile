@@ -28,6 +28,7 @@ export class BarChartComponent implements OnInit {
   public tonnes!: number;
   public degres!: number;
   public userFeatures!: UserFeatures;
+  public numberOfTicks = 4;
 
   public currentSelectedDayOfWeek = new Date().getDay();
   public currentSelectedDayOfMonth = new Date().getDate();
@@ -306,12 +307,21 @@ export class BarChartComponent implements OnInit {
 
   private groupByHours(data: Co2ByOriginByTime[]): Co2ByOriginByTime[] {
     let newData : Co2ByOriginByTime[] = [];
+    let regroupedData : Co2ByOriginByTime[] = [];
     const groupedData = d3.group(data, d => new Date(d.date).getHours());
     groupedData.forEach((entry: Co2ByOriginByTime[]) => {
       const co2 = entry[entry.length - 1].co2 - entry[0].co2;
       newData.push({co2: co2, date: new Date(2024, 0, entry[0].date.getDate(), entry[0].date.getHours())});
     });
-    return newData;
+    if (newData.length > this.numberOfTicks) {
+      for (let i = 0; i < newData.length; i++) {
+        if (i % 2 === 0 && newData[i+1]) {
+          regroupedData.push({co2: newData[i].co2 + newData[i+1].co2, date: newData[i].date});
+        }
+      }
+    }
+
+    return regroupedData;
   }
 
   private buildChart() {
@@ -362,7 +372,7 @@ export class BarChartComponent implements OnInit {
 
     // Define the axes
     const xAxis = (g: any, x: any) => g
-    .call(d3.axisBottom(x).tickFormat(this.graphService.multiFormat).tickPadding(width / 80));
+    .call(d3.axisBottom(x).ticks(5).tickFormat(this.graphService.multiFormat).tickPadding(width / 80));
     var yAxis = (g: any, y: any) => g
     .call(d3.axisLeft(y).tickPadding(height / 80).tickSize(-15000));
   
@@ -451,6 +461,10 @@ export class BarChartComponent implements OnInit {
     d3.select('.threshold_label').style("opacity", 0);
 
     this.updateChart();
+
+    // We want the day button activated by default
+    const lastDayButton = document.getElementById('day');
+    (lastDayButton as HTMLInputElement).click();
   }
 
   public isDayButtonActivated(): boolean {
@@ -496,6 +510,10 @@ export class BarChartComponent implements OnInit {
         this.dataDrawnCo2TimeSerie = this.groupByDays(this.dataDrawnCo2TimeSerie);
        }
     }
+
+    if (this.dataDrawnCo2TimeSerie.length === 0) {
+      return;
+    }
     // propage 
     this.graphService.$dataDrawnCo2TimeSerie.next(this.dataDrawnCo2TimeSerie);
 
@@ -522,6 +540,7 @@ export class BarChartComponent implements OnInit {
     } else {
       threshold = 275;
     }
+    console.log(this.dataDrawnCo2TimeSerie.length);
     let diff_between_dataDrawn_minmax_date = this.dataDrawnCo2TimeSerie[this.dataDrawnCo2TimeSerie.length - 1].date - this.dataDrawnCo2TimeSerie[0].date;
     diff_between_dataDrawn_minmax_date /= (3.6e+6); // heures
     if (diff_between_dataDrawn_minmax_date < 24 && threshold) {

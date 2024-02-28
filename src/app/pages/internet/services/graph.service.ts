@@ -123,7 +123,7 @@ export class GraphService {
   public scaleXYDomain(data: Co2ByOriginByTime[], x: any, y: any) {
     // Scale the range of the data
     let i = 0;
-    const margin_right = (data[data.length - 1].date - data[0].date) * 11 / 100;
+    const margin_right = (data[data.length - 1].date - data[0].date) * 25 / 100;
     console.log(margin_right);
     x.domain([
       d3.min(data, (d) => {

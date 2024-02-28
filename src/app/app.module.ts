@@ -1,16 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BannerComponent } from './customComponents/banner/banner.component';
 import { MenuComponent } from './customComponents/menu/menu.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { LegalMentionsComponent } from './pages/legal-mentions/legal-mentions.component';
@@ -26,6 +18,16 @@ import { LineChartComponent } from './pages/internet/line-chart/line-chart.compo
 import { LineChartShoppingComponent } from './pages/shopping/line-chart-shopping/line-chart-shopping.component';
 import { BarChartComponent } from './pages/internet/bar-chart/bar-chart.component';
 import { TravelComponent } from './pages/travel/travel.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouteReuseStrategy } from '@angular/router';
+import { IonicRouteStrategy } from '@ionic/angular';
+import { NgModule } from '@angular/core';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { TravelComponent } from './pages/travel/travel.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ],
   providers: [
     AuthService,

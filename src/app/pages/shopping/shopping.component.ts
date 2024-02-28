@@ -4,7 +4,6 @@ import { Observable, debounceTime, distinctUntilChanged, fromEvent, map, of, sha
 import { ToastService, toastType } from 'src/app/services/toast.service';
 import { API_URL } from 'src/environments/env.dev';
 import { GraphService } from '../internet/services/graph.service';
-import { Route, Router } from '@angular/router';
 import { ShoppingService } from './services/shopping.service';
 import { ShoppingApiService } from 'src/app/services/shopping.service';
 
@@ -287,6 +286,13 @@ export class ShoppingComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public displayChallenges() {
+    const overlay_message = document.getElementById('overlay_message');
+    if (overlay_message) {
+      overlay_message.style.display = 'block';
     }
   }
 

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { LegalMentionsComponent } from './pages/legal-mentions/legal-mentions.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ShoppingComponent } from './pages/shopping/shopping.component';
 import { InternetComponent } from './pages/internet/internet.component';
 import { TravelComponent } from './pages/travel/travel.component';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: '/internet', pathMatch: 'full' },

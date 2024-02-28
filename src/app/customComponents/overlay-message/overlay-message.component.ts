@@ -23,6 +23,9 @@ export class OverlayMessageComponent implements OnInit {
   public achatsMax = 32;
   public internetMax = 6;
   public maisonMax = 32;
+  public displayMess1 = true;
+  public displayMess2 = false;
+  public displayMess3 = false;
 
   public userFeatures!: UserFeatures;
 
@@ -80,13 +83,21 @@ export class OverlayMessageComponent implements OnInit {
     }
   }
 
-  public next(current: string, next: string) {
-      const message1 = document.getElementById(current);
-      const message2 = document.getElementById(next);
-
-      if (message1 && message2) {
+  public next() {
+      const message1 = document.getElementById('message');
+      const message2 = document.getElementById('message2');
+      const message3 = document.getElementById('message3');
+      if (message1 && message2 && this.displayMess1) {
         message1.style.display = 'none';
         message2.style.display = 'block';
+        this.displayMess2 = true;
+        this.displayMess1 = false;
+      } else if (message2 && message3 && this.displayMess2) {
+        message2.style.display = 'none';
+        message3.style.display = 'block';
+        this.displayMess3 = true;
+        this.displayMess2 = false;
+        console.log('dis mess 3')
       }
   }
 
@@ -122,14 +133,22 @@ export class OverlayMessageComponent implements OnInit {
     }
   }
 
-  public previous(current: string, previous: string): void {
-    const message1 = document.getElementById(previous);
-    const message2 = document.getElementById(current);
+  public previous(): void {
+    const message1 = document.getElementById('message');
+    const message2 = document.getElementById('message2');
+    const message3 = document.getElementById('message3');
 
-    if (message1 && message2) {
+    if (message1 && message2 && this.displayMess2) {
       message1.style.display = 'block';
       message2.style.display = 'none';
-    } 
+      this.displayMess1 = true;
+      this.displayMess2 = false;
+    } else if (message2 && message3 && this.displayMess3) {
+      message2.style.display = 'block';
+      message3.style.display = 'none';
+      this.displayMess2 = true;
+      this.displayMess3 = false;
+    }
   }
 
   public validate(): void {

@@ -1,13 +1,14 @@
 import { AfterContentInit, Component, OnInit } from '@angular/core';
 import {Subscription} from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+
 import { Co2ByOriginByTime } from './pages/internet/internet.component';
 import { User } from './models/user';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { ToastService, toastType } from './services/toast.service';
 import { LineDataApiService } from './pages/internet/services/line-data-api.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
