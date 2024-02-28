@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackgroundGeolocationPlugin } from '@capacitor-community/background-geolocation';
 import {registerPlugin} from "@capacitor/core";
+import { LocalNotifications } from '@capacitor/local-notifications';
 const BackgroundGeolocation : BackgroundGeolocationPlugin = registerPlugin("BackgroundGeolocation");
 
 @Component({
@@ -123,4 +124,13 @@ function guess_location(callback: any, timeout: number) {
     }
   }
 
+  public request_permissions() {
+    LocalNotifications.requestPermissions().then(
+      function (status) {
+        console.log("Notification permissions " + status.display);
+      }
+    );
+  }
+
 }
+
