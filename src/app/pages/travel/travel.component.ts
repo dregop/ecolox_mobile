@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import * as L from "leaflet";
-import { filter, map, tap } from "rxjs/operators";
-import { BackgroundGeolocationService } from 'src/app/services/background-geolocation.service';
-import { Geolocation } from '@capacitor/geolocation';
+import { BackgroundGeolocationPlugin } from '@capacitor-community/background-geolocation';
+import {registerPlugin} from "@capacitor/core";
+const BackgroundGeolocation : BackgroundGeolocationPlugin = registerPlugin("BackgroundGeolocation");
 
 @Component({
   selector: 'app-travel',
@@ -24,87 +23,97 @@ export class TravelComponent implements OnInit {
   // );
 
   // geolocation service you just created
-  constructor(private geolocation: BackgroundGeolocationService) {}
+  constructor() {}
   
   ngOnInit(): void {
+// To start listening for changes in the device's location, add a new watcher.
+// You do this by calling 'addWatcher' with an options object and a callback. An
+// ID is returned, which can be used to remove the watcher in the future. The
+// callback will be called every time a new location is available. Watchers can
+// not be paused, only removed. Multiple watchers may exist at the same time.
+const watcher_id = BackgroundGeolocation.addWatcher(
+  {
+      // If the "backgroundMessage" option is defined, the watcher will
+      // provide location updates whether the app is in the background or the
+      // foreground. If it is not defined, location updates are only
+      // guaranteed in the foreground. This is true on both platforms.
 
-    const x = document.getElementById("demo");
+      // On Android, a notification must be shown to continue receiving
+      // location updates in the background. This option specifies the text of
+      // that notification.
+      backgroundMessage: "Cancel to prevent battery drain.",
 
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-    };
+      // The title of the notification mentioned above. Defaults to "Using
+      // your location".
+      backgroundTitle: "Tracking You.",
 
-      if (x) {
-        if (navigator.geolocation) {
-          navigator.geolocation.watchPosition(firstGeolocationSuccess, error, options);
-        } else {
-          x.innerHTML = "Geolocation is not supported by this browser.";
+      // Whether permissions should be requested from the user automatically,
+      // if they are not already granted. Defaults to "true".
+      requestPermissions: true,
+
+      // If "true", stale locations may be delivered while the device
+      // obtains a GPS fix. You are responsible for checking the "time"
+      // property. If "false", locations are guaranteed to be up to date.
+      // Defaults to "false".
+      stale: false,
+
+      // The minimum number of metres between subsequent locations. Defaults
+      // to 0.
+      distanceFilter: 50
+  },
+  function callback(location, error) {
+    if (error) {
+        if (error.code === "NOT_AUTHORIZED") {
+            if (window.confirm(
+                "This app needs your location, " +
+                "but does not have permission.\n\n" +
+                "Open settings now?"
+            )) {
+                // It can be useful to direct the user to their device's
+                // settings when location permissions have been denied. The
+                // plugin provides the 'openSettings' method to do exactly
+                // this.
+                BackgroundGeolocation.openSettings();
+            }
         }
-      }
-
-      function error(e: any) {
-        console.log(e);
-      }
-
-    function showPosition(position: any) {
-      if (x) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-        "<br>Longitude: " + position.coords.longitude;
-      } else {
-        console.log('error');
-      }
-    }
-    
-    function calculateSpeed(t1: any, lat1: any, lng1: any, t2: any, lat2: any, lng2: any) {
-      // From Caspar Kleijne's answer starts
-      /** Converts numeric degrees to radians */
-      const toRad = function(numb: number) {
-        return numb * Math.PI / 180;
-      }
-      // From Caspar Kleijne's answer ends
-      // From cletus' answer starts
-      var R = 6371; // km
-      var dLat = toRad(lat2-lat1);
-      var dLon = toRad(lng2-lng1);
-      lat1 = toRad(lat1);
-      lat2 = toRad(lat2);
-    
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) *    Math.cos(lat2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var distance = R * c;
-      // From cletus' answer ends
-    
-      if (x) {
-        x.innerHTML = "speed: " + (distance / (t2 - t1));
-      } else {
-        console.log('error');
-      }
-    }
-    
-    function firstGeolocationSuccess(position1: any) {
-      var t1 = Date.now();
-      navigator.geolocation.getCurrentPosition(
-        function (position2) {
-          var speed = calculateSpeed(t1 / 1000, position1.coords.latitude, position1.coords.longitude, Date.now() / 1000, position2.coords.latitude, position2.coords.longitude);
-        });
-    }
-    
-
-    function getSpeed(pos: any) {
-      const speedSpan = document.getElementById('speed');
-      if (pos && pos.coords && speedSpan) {
-        console.log('Current position:', pos.coords.speed);
-        speedSpan.innerHTML = pos.coords.speed + ' km/h';
-      }
-
+        return console.error(error);
     }
 
-    setInterval(async () => {
-      await Geolocation.watchPosition(options, getSpeed);
-    }, 5000);
+    return console.log(location);
+}
+).then(function after_the_watcher_has_been_added(watcher_id) {
+// When a watcher is no longer needed, it should be removed by calling
+// 'removeWatcher' with an object containing its ID.
+BackgroundGeolocation.removeWatcher({
+    id: watcher_id
+});
+});
 
+// If you just want the current location, try something like this. The longer
+// the timeout, the more accurate the guess will be. I wouldn't go below about
+// 100ms.
+function guess_location(callback: any, timeout: number) {
+  let last_location: any;
+  BackgroundGeolocation.addWatcher(
+      {
+          requestPermissions: false,
+          stale: true
+      },
+      function (location) {
+          last_location = location || undefined;
+          const speedSpan = document.getElementById('speed');
+          if (speedSpan && last_location) {
+            speedSpan.innerHTML = last_location.coords.speed;
+          }
+      }
+  ).then(function (id) {
+      setTimeout(function () {
+          callback(last_location);
+          BackgroundGeolocation.removeWatcher({id});
+      }, timeout);
+  });
+  }
+  guess_location;
   }
 
   public displayChallenges() {
@@ -113,14 +122,5 @@ export class TravelComponent implements OnInit {
       overlay_message.style.display = 'block';
     }
   }
-
-  // updateMarker(latLng: L.LatLng) {
-  //   if (this.marker == undefined) this.createMarker(latLng);
-  //   this.marker.setLatLng(latLng);
-  // }
-  
-  // createMarker(latLng: L.LatLng) {
-  //   this.marker = L.marker(latLng);
-  // }
 
 }
