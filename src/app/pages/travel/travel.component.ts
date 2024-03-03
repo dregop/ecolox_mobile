@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {registerPlugin} from "@capacitor/core";
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { BackgroundGeolocationPlugin } from 'cordova-plugin-mauron85-background-geolocation';
+import { BackgroundGeolocationPlugin } from 'cordova-background-geolocation-plugin';
 
 // This is important!
 declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
