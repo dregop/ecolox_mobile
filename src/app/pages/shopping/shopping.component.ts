@@ -66,32 +66,32 @@ export class ShoppingComponent implements OnInit {
     const  listButton = document.getElementById('listButton');
     
     barButton?.addEventListener('click', () => {
-      barButton.className = 'btn-graph activated';     
+      barButton.className = 'btn-menu-graph activated';     
       if (lineButton) {
-        lineButton.className = 'btn-graph';
+        lineButton.className = 'btn-menu-graph';
       }
       if (listButton) {
-        listButton.className = 'btn-graph';
+        listButton.className = 'btn-menu-graph';
       }
     });
 
     lineButton?.addEventListener('click', () => {
-      lineButton.className = 'btn-graph activated';     
+      lineButton.className = 'btn-menu-graph activated';     
       if (barButton) {
-        barButton.className = 'btn-graph';
+        barButton.className = 'btn-menu-graph';
       }
       if (listButton) {
-        listButton.className = 'btn-graph';
+        listButton.className = 'btn-menu-graph';
       }
     });
 
     listButton?.addEventListener('click', () => {
-      listButton.className = 'btn-graph activated';     
+      listButton.className = 'btn-menu-graph activated';     
       if (barButton) {
-        barButton.className = 'btn-graph';
+        barButton.className = 'btn-menu-graph';
       }
       if (lineButton) {
-        lineButton.className = 'btn-graph';
+        lineButton.className = 'btn-menu-graph';
       }
     });
   }

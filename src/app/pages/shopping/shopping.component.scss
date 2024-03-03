@@ -27,9 +27,13 @@ legend {
 }
 
 .card {
-    height: 100px;
+    height: 12vh;
     overflow: auto;
     border-bottom: 2px solid #e2e8f0;
+}
+
+#list_product {
+    margin-bottom: -50px;
 }
 
 .search {
@@ -65,7 +69,7 @@ legend {
     @apply rounded-lg pr-2 pl-2 m-1 mb-2 bg-lime-300 hover:bg-slate-200 active:bg-slate-300
 }
 
-.btn-graph {
+.btn-menu-graph {
     @apply rounded-lg border-2 border-slate-400 p-2 m-1 mb-2 bg-slate-100 hover:bg-lime-200 active:bg-lime-300
 }
 
