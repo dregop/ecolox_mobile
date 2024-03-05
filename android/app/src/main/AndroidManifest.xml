@@ -9,12 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service
-            android:name="com.equimaps.capacitor_background_geolocation.BackgroundGeolocationService"
-            android:enabled="true"
-            android:exported="true"
-            android:foregroundServiceType="location" />
-
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
             android:name=".MainActivity"
