@@ -113,7 +113,8 @@ export class TravelComponent implements OnInit {
           function (location) {
               last_location = location || undefined;
               const speedSpan = document.getElementById('speed');
-              if (speedSpan && last_location) {
+              if (speedSpan) {
+                speedSpan.innerHTML = 'prout';
                 speedSpan.innerHTML = last_location.coords.speed;
               }
           }
