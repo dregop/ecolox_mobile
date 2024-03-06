@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Ecolox</string>
-    <string name="title_activity_main">Ecolox</string>
+    <string name="app_name">Ecobuddy</string>
+    <string name="title_activity_main">Ecobuddy</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
+  <!-- background geolocation -->
+  <string name="plugin_bgloc_account_name">@string/app_name</string>
+  <string name="plugin_bgloc_account_type">$PACKAGE_NAME.account</string>
+  <string name="plugin_bgloc_content_authority">$PACKAGE_NAME</string>
 </resources>
