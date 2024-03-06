@@ -4,11 +4,11 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { BackgroundGeolocationPlugin } from 'cordova-background-geolocation-plugin';
 
 // This is important!
-// declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
+declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
 
 
 // import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolocation";
-const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
+// const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
 
 @Component({
   selector: 'app-travel',
@@ -247,9 +247,9 @@ export class TravelComponent implements OnInit {
       console.log('[INFO] BackgroundGeolocation auth status: ' + status.authorization);
   
       // you don't need to check status before start (this is just the example)
-      if (!status.isRunning) {
+      // if (!status.isRunning) {
         BackgroundGeolocation.start(); //triggers start on start event
-      }
+      // }
     });
   
     // you can also just start without checking for status
