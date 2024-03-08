@@ -27,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicRouteStrategy } from '@ionic/angular';
 import { NgModule } from '@angular/core';
+import { GlobalComponent } from './pages/global/global.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { NgModule } from '@angular/core';
     BarChartComponent,
     ShoppingComponent,
     LoaderComponent,
-    TravelComponent],
+    TravelComponent,
+    GlobalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
