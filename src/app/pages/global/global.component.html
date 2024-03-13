@@ -35,8 +35,18 @@
   
   </div>
 
-  <div class="basis-3/4 flex flex-row text-slate-700">
-    <div class="w-full flex flex-col">
+  <div class="basis-3/4 flex flex-row text-slate-700 items-center text-center">
+    <loader *ngIf="loading" class="w-full"></loader>
+    <div *ngIf="!IsChallengesStarted && !loading" class="flex flex-col justify-evenly items-center w-full h-full">
+      <img src="../../../assets/seed.png" alt="Seed Budy" class="w-1/2 mt-[-40px]">
+      <span class="text-xl font-semibold border-2 rounded-lg p-4 bg-slate-100">Commence les défis et fais moi grandir :D</span>
+      <button class="flex flex-row items-center" (click)="startChallenges()">
+        <img src="../../../assets/play.svg" alt="Commencer les défis" class="w-14 mr-2" >
+        <span class="font-bold">COMMENCER</span>
+      </button>
+
+    </div>
+    <div class="w-full flex flex-col" *ngIf="IsChallengesStarted && !loading">
       <!-- <div class="basis-1/6 bg-stone-100 flex flex-col items-center m-1">
         <div class="basis-1/4 text-center font-semibold p-1">
           Niveau
@@ -56,17 +66,40 @@
           +4% cette semaine
         </div>
       </div> -->
-      <div class="basis-5/6 flex flex-col items-center">
-        <div class="absolute top-0 right-0">
-          <img src="" alt="">
+      <div class="basis-3/6 flex flex-col items-center">
+        <!-- <div class="absolute right-8 flex flex-col items-center">
+          <div class="w-16 h-16 rounded-full border-2 bg-amber-200 flex flex-row items-center"><span class="w-full text-center text-xl font-bold text-amber-600">+15%</span></div>
+          <div class="text-xs text-slate-700 w-24 text-center font-semibold">Pollution / semaine dernière</div>
+        </div> -->
+
+        <!-- <div class="absolute right-8 flex flex-col items-center">
+          <div class="w-16 h-16 rounded-full border-2 bg-lime-200 flex flex-row items-center"><span class="w-full text-center text-xl font-bold text-lime-600">111<span class="text-xs">ème</span></span></div>
+          <div class="text-xs text-slate-700 w-24 text-center font-semibold">Rang</div>
+        </div> -->
+
+        <div class="basis-3/6"> 
+          <img  [src]="'../../../assets/' + level + '_plant.png'" alt="Plant" class="max-w-[50%] m-auto">
         </div>
-        <img class="basis-5/6" [src]="'../../../assets/' + lvl + '_plant.png'" alt="Plant" width="150">
-        
-        <div class="basis-1/6 flex flex-col w-full items-center">
-          <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[10px] w-3/4">
-            <div id="lvl_bar" class="bg-lime-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 6%"> {{trunc(pourcent_lvl)}}%</div>
+ 
+        <div class="flex flex-col w-full items-center mt-[-50px]">
+          <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
+            <div class="bg-amber-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 80%;height: 100%;">80%</div>
           </div>
-          <span class="basis-1/6 text-xs">Niveau {{lvl}}</span>
+          <span class="text-xs font-semibold mb-2">Limite Hébdomadaire</span>
+        </div>    
+
+        <div class="flex flex-col w-full items-center">
+          <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
+            <div id="health_bar" class="bg-lime-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 100%;height: 100%;">{{trunc(pourcent_health)}}%</div>
+          </div>
+          <span class="basis-1/6 text-xs font-semibold mb-2">Santé</span>
+        </div>        
+
+        <div class="flex flex-col w-full items-center">
+          <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
+            <div id="lvl_bar" class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 6%;height:100%"> {{trunc(pourcent_lvl)}}%</div>
+          </div>
+          <span class="basis-1/6 text-xs font-semibold">Niveau {{level}}</span>
         </div>
       </div>
      <!-- <div class="basis-1/6 p-4 flex flex-row">
@@ -79,7 +112,7 @@
         <div class="basis-1/3 text-xs text-center">Mieux classé parmi les utilisateurs</div>
       </div>
      </div> -->
-     <div *ngIf="acheived_challenges.length > 0" class="basis-1/6 p-2">
+     <div *ngIf="acheived_challenges.length > 0" class="basis-3/6 p-2 overflow-auto">
       <div class="basis-1/4 text-center font-semibold p-1">
         Prochains défis à votre portée :
       </div>
@@ -99,36 +132,40 @@
         <span class="ml-10">- - - Ajouter minimum 20 produits en une semaine</span>
       </div>
      </div>
-     <div *ngIf="acheived_challenges.length === 0" class="basis-1/6 p-2">
+     <div *ngIf="acheived_challenges.length === 0" class="basis-3/6 p-2 flex flex-col overflow-auto">
       <div class="basis-1/6 text-center font-semibold p-1">
         Derniers défis accomplis :
       </div>
-      <div class="div_defi">
-        <div class="flex flex-row">
-          <span>10 ml</span> 
-          <img class="w-4"  src="../../../assets/drop.svg">
+      <div class="basis-4/6 overflow-auto">
+        <div class="div_defi">
+          <div class="flex flex-row">
+            <span>10 ml</span> 
+            <img class="w-4"  src="../../../assets/drop.svg">
+          </div>
+          <span class="ml-8">- - - Respecter la limite journalière pendant une journée</span>
         </div>
-        <span class="ml-8">- - - Respecter la limite journalière pendant une journée</span>
-      </div>
-      <div class="div_defi">
-        <div class="flex flex-row">
-          <span>100 ml</span> 
-          <img class="w-4"  src="../../../assets/drop.svg">
+        <div class="div_defi">
+          <div class="flex flex-row">
+            <span>100 ml</span> 
+            <img class="w-4"  src="../../../assets/drop.svg">
+          </div>
+          <span class="ml-10">- - - Respecter la limite journalière pendant une semaine</span>
         </div>
-        <span class="ml-10">- - - Respecter la limite journalière pendant une semaine</span>
-      </div>
-      <div class="div_defi">
-        <div class="flex flex-row">
-          <span>50 ml</span> 
-          <img class="w-4"  src="../../../assets/drop.svg">
+        <div class="div_defi">
+          <div class="flex flex-row">
+            <span>50 ml</span> 
+            <img class="w-4"  src="../../../assets/drop.svg">
+          </div>
+          <span class="ml-10">- - - Ajouter minimum 20 produits en une semaine</span>
         </div>
-        <span class="ml-10">- - - Ajouter minimum 20 produits en une semaine</span>
       </div>
+
       <div class="basis-1/6 flex justify-center">
-        <button class="bg-blue-600 p-3 text-white font-semibold flex flex-row items-center text-xl rounded border-4 border-amber-100">
+        <button class="bg-blue-600 p-3 text-white font-semibold flex flex-row items-center text-xl rounded border-4 border-amber-100" (click)="water()">
           <span class="mr-2 text-xs">(160 ml) </span>
           <img src="../../../assets/watering-can.svg" alt="Arrosoire" width="30" class="mr-2">
           Arroser</button>
+          <button (click)="resetChallenges()">RESET</button>
       </div>
       
      </div>
@@ -147,4 +184,8 @@
       </button>
   </div>
 
+</div>
+
+<div id="toast">
+  <span>{{ toastService.toastMessage }}</span>
 </div>

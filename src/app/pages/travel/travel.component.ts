@@ -155,10 +155,10 @@ export class TravelComponent implements OnInit {
       interval: 10000,
       fastestInterval: 5000,
       activitiesInterval: 10000,
-      url: 'http://192.168.81.15:3000/location',
-      httpHeaders: {
-        'X-FOO': 'bar'
-      },
+      // url: 'http://192.168.81.15:3000/location',
+      // httpHeaders: {
+      //   'X-FOO': 'bar'
+      // },
       // customize post properties
       postTemplate: {
         lat: '@latitude',
@@ -248,12 +248,12 @@ export class TravelComponent implements OnInit {
   
       // you don't need to check status before start (this is just the example)
       // if (!status.isRunning) {
-        BackgroundGeolocation.start(); //triggers start on start event
+    // BackgroundGeolocation.start(); //triggers start on start event
       // }
     });
   
     // you can also just start without checking for status
-    // BackgroundGeolocation.start();
+    BackgroundGeolocation.start();
   
     // Don't forget to remove listeners at some point!
     // BackgroundGeolocation.removeAllListeners();

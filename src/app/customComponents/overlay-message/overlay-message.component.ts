@@ -159,7 +159,7 @@ export class OverlayMessageComponent implements OnInit {
     }
     this.closeMessageOverlay();
 
-    this.userFeatures = new UserFeatures(this.level, this.deplacement, this.achats, this.maison, this.internet);
+    // this.userFeatures = new UserFeatures(this.level, this.deplacement, this.achats, this.maison, this.internet);
     this.userService.$userFeatures.next(this.userFeatures);
 
     if (this.userFeatures && this.userFeatures.level) {
