@@ -247,16 +247,20 @@ export class TravelComponent implements OnInit {
       console.log('[INFO] BackgroundGeolocation auth status: ' + status.authorization);
   
       // you don't need to check status before start (this is just the example)
-      // if (!status.isRunning) {
+    //   if (!status.isRunning) {
     // BackgroundGeolocation.start(); //triggers start on start event
-      // }
+    //   }
     });
   
     // you can also just start without checking for status
-    BackgroundGeolocation.start();
+
   
     // Don't forget to remove listeners at some point!
     // BackgroundGeolocation.removeAllListeners();
+  }
+
+  public start() {
+    BackgroundGeolocation.start();
   }
 
 }
