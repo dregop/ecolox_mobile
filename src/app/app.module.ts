@@ -17,7 +17,6 @@ import { InternetComponent } from './pages/internet/internet.component';
 import { LineChartComponent } from './pages/internet/line-chart/line-chart.component';
 import { LineChartShoppingComponent } from './pages/shopping/line-chart-shopping/line-chart-shopping.component';
 import { BarChartComponent } from './pages/internet/bar-chart/bar-chart.component';
-import { TravelComponent } from './pages/travel/travel.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,6 +27,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicRouteStrategy } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { GlobalComponent } from './pages/global/global.component';
+import { TravelComponent } from './pages/travel/travel.component';
 
 
 @NgModule({
