@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {registerPlugin} from "@capacitor/core";
 import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolocation";
 const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
+import { Geolocation } from '@capacitor/geolocation';
+import { h } from 'ionicons/dist/types/stencil-public-runtime';
 
 @Component({
   selector: 'app-travel',
@@ -13,6 +15,24 @@ export class TravelComponent implements OnInit {
   constructor() {}
   
   ngOnInit(): void {
+
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+    };
+
+    function getSpeed(pos: any) {
+      const speedSpan = document.getElementById('speed');
+      if (pos && pos.coords && speedSpan) {
+        console.log('Current position:', pos.coords.speed);
+        speedSpan.innerHTML = (pos.coords.speed as number * 3.6).toFixed(1)  + ' km/h';
+      }
+
+    }
+
+    setInterval(async () => {
+      await Geolocation.watchPosition(options, getSpeed);
+    }, 1000);
   }
 
   public start() {
@@ -126,5 +146,5 @@ export class TravelComponent implements OnInit {
             BackgroundGeolocation.removeWatcher({id});
         }, timeout);
     });
-}
+  }
 }
