@@ -43,11 +43,15 @@
       </div>
   </div>
 
-  <div class="basis-3/4 flex flex-row">
+  <div class="basis-3/4 flex flex-col">
+   <div>
     <span class="m-1">Vitesse :  </span>
     <span class="m-1" id="speed">  0 km/h</span>
     <button class="border-2 h-24"
     (click)="start()">Commencer le tracking</button>
+   </div> 
+
+    <line-chart-travel [dataDb]="travelTimeSerie" class="relative z-50 "></line-chart-travel>
   </div>
 
   <div class="relative bottom-0 text-center">

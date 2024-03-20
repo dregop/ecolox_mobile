@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError, catchError, Subject, async } from 'rxjs';
-import { Co2ByOriginByTime } from '../internet.component';
 import { API_URL } from 'src/environments/env.dev';
 
 @Injectable({

@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { API_URL } from 'src/environments/env.dev';
 
 // access to its functions
 // declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
@@ -34,7 +36,7 @@ export class BackgroundGeolocationService {
     // an observable that will be used later in this ariticle
   // public position$ = new BehaviorSubject<L.LatLng>(undefined as any);
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   // // call this function whenever you are ready to track!
   // async init() {
@@ -57,4 +59,19 @@ export class BackgroundGeolocationService {
     
   //   // do it yourself below, what have you in mind?
   // }
+
+  saveLocation(location: any): Observable<any> {
+    return this.http
+      .post(`${API_URL}/travel`, location);
+  }
+
+  updateLocation(location: any): Observable<any> {
+    return this.http
+      .put(`${API_URL}/travel`, location);
+  }
+
+  getData(): Observable<any> {
+    return this.http
+      .get(`${API_URL}/travel`);
+  }
 }

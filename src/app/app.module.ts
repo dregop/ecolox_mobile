@@ -28,6 +28,7 @@ import { IonicRouteStrategy } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { GlobalComponent } from './pages/global/global.component';
 import { TravelComponent } from './pages/travel/travel.component';
+import { LineChartTravelComponent } from './pages/travel/line-chart-travel/line-chart-travel.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { TravelComponent } from './pages/travel/travel.component';
     ResetPasswordComponent,
     LineChartComponent,
     LineChartShoppingComponent,
+    LineChartTravelComponent,
     OverlayMessageComponent,
     InternetComponent,
     HouseComponent,

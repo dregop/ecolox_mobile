@@ -4,6 +4,14 @@ import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolo
 const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
 import { Geolocation } from '@capacitor/geolocation';
 import { h } from 'ionicons/dist/types/stencil-public-runtime';
+import { BackgroundGeolocationService } from 'src/app/services/background-geolocation.service';
+
+export  class Travel {
+  name?: string;
+  date!: any;
+  speed!: number;
+  co2?: number;
+}
 
 @Component({
   selector: 'app-travel',
@@ -11,140 +19,168 @@ import { h } from 'ionicons/dist/types/stencil-public-runtime';
   styleUrls: ['./travel.component.scss']
 })
 export class TravelComponent implements OnInit {
+  private geoloc: any;
+  private options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+  };
+  public travelTimeSerie!: Travel[];
   
-  constructor() {}
+  constructor(private geolocationService: BackgroundGeolocationService) {}
   
   ngOnInit(): void {
+  }
 
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-    };
-
-    function getSpeed(pos: any) {
-      const speedSpan = document.getElementById('speed');
-      if (pos && pos.coords && speedSpan) {
-        console.log('Current position:', pos.coords.speed);
-        speedSpan.innerHTML = (pos.coords.speed as number * 3.6).toFixed(1)  + ' km/h';
+  private getSpeed(pos: any) {
+    this.geolocationService.getData().subscribe({
+      next: (data) => {
+        console.log('Location data:', data);
+        this.travelTimeSerie = data;
+      },
+      error: (error) => {
+        console.log(error);
       }
+    });
 
+    const speedSpan = document.getElementById('speed');
+    if (pos && pos.coords && speedSpan) {
+      const speed = Math.trunc(pos.coords.speed as number * 3.6);
+      speedSpan.innerHTML = speed  + ' km/h';
+      this.travelTimeSerie.push({speed: speed, date: new Date()})
+        this.geolocationService.saveLocation({
+          'category': 'shopping',
+          'data': JSON.stringify(this.travelTimeSerie)
+        }).subscribe({
+          next: () => {
+            console.log('data saved');
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
     }
-
-    setInterval(async () => {
-      await Geolocation.watchPosition(options, getSpeed);
-    }, 1000);
   }
 
   public start() {
-    BackgroundGeolocation.addWatcher(
-      {
-          // If the "backgroundMessage" option is defined, the watcher will
-          // provide location updates whether the app is in the background or the
-          // foreground. If it is not defined, location updates are only
-          // guaranteed in the foreground. This is true on both platforms.
+    setInterval(async () => {
+      this.geoloc = await Geolocation.watchPosition(this.options, this.getSpeed);
+    }, 2000);
+  }
+
+  public stop() {
+    Geolocation.clearWatch(this.geoloc);
+  }
+
+  // public start() {
+  //   BackgroundGeolocation.addWatcher(
+  //     {
+  //         // If the "backgroundMessage" option is defined, the watcher will
+  //         // provide location updates whether the app is in the background or the
+  //         // foreground. If it is not defined, location updates are only
+  //         // guaranteed in the foreground. This is true on both platforms.
   
-          // On Android, a notification must be shown to continue receiving
-          // location updates in the background. This option specifies the text of
-          // that notification.
-          backgroundMessage: "Cancel to prevent battery drain.",
+  //         // On Android, a notification must be shown to continue receiving
+  //         // location updates in the background. This option specifies the text of
+  //         // that notification.
+  //         backgroundMessage: "Cancel to prevent battery drain.",
   
-          // The title of the notification mentioned above. Defaults to "Using
-          // your location".
-          backgroundTitle: "Tracking You.",
+  //         // The title of the notification mentioned above. Defaults to "Using
+  //         // your location".
+  //         backgroundTitle: "Tracking You.",
   
-          // Whether permissions should be requested from the user automatically,
-          // if they are not already granted. Defaults to "true".
-          requestPermissions: true,
+  //         // Whether permissions should be requested from the user automatically,
+  //         // if they are not already granted. Defaults to "true".
+  //         requestPermissions: true,
   
-          // If "true", stale locations may be delivered while the device
-          // obtains a GPS fix. You are responsible for checking the "time"
-          // property. If "false", locations are guaranteed to be up to date.
-          // Defaults to "false".
-          stale: false,
+  //         // If "true", stale locations may be delivered while the device
+  //         // obtains a GPS fix. You are responsible for checking the "time"
+  //         // property. If "false", locations are guaranteed to be up to date.
+  //         // Defaults to "false".
+  //         stale: false,
   
-          // The minimum number of metres between subsequent locations. Defaults
-          // to 0.
-          distanceFilter: 50
-      },
-      function callback(location, error) {
-          if (error) {
-              if (error.code === "NOT_AUTHORIZED") {
-                  if (window.confirm(
-                      "This app needs your location, " +
-                      "but does not have permission.\n\n" +
-                      "Open settings now?"
-                  )) {
-                      // It can be useful to direct the user to their device's
-                      // settings when location permissions have been denied. The
-                      // plugin provides the 'openSettings' method to do exactly
-                      // this.
-                      BackgroundGeolocation.openSettings();
-                  }
-              }
-              return console.error(error);
-          }
+  //         // The minimum number of metres between subsequent locations. Defaults
+  //         // to 0.
+  //         distanceFilter: 50
+  //     },
+  //     function callback(location, error) {
+  //         if (error) {
+  //             if (error.code === "NOT_AUTHORIZED") {
+  //                 if (window.confirm(
+  //                     "This app needs your location, " +
+  //                     "but does not have permission.\n\n" +
+  //                     "Open settings now?"
+  //                 )) {
+  //                     // It can be useful to direct the user to their device's
+  //                     // settings when location permissions have been denied. The
+  //                     // plugin provides the 'openSettings' method to do exactly
+  //                     // this.
+  //                     BackgroundGeolocation.openSettings();
+  //                 }
+  //             }
+  //             return console.error(error);
+  //         }
   
-          return console.log(location);
-      }
-  ).then(function after_the_watcher_has_been_added(watcher_id) {
-      // When a watcher is no longer needed, it should be removed by calling
-      // 'removeWatcher' with an object containing its ID.
-      BackgroundGeolocation.removeWatcher({
-          id: watcher_id
-      });
-  });
+  //         return console.log(location);
+  //     }
+  // ).then(function after_the_watcher_has_been_added(watcher_id) {
+  //     // When a watcher is no longer needed, it should be removed by calling
+  //     // 'removeWatcher' with an object containing its ID.
+  //     BackgroundGeolocation.removeWatcher({
+  //         id: watcher_id
+  //     });
+  // });
   
-  // // The location object.
-  // {
-  //     // Longitude in degrees.
-  //     longitude: 131.723423719132,
-  //     // Latitude in degrees.
-  //     latitude: -22.40106297456,
-  //     // Radius of horizontal uncertainty in metres, with 68% confidence.
-  //     accuracy: 11,
-  //     // Metres above sea level (or null).
-  //     altitude: 65,
-  //     // Vertical uncertainty in metres, with 68% confidence (or null).
-  //     altitudeAccuracy: 4,
-  //     // Deviation from true north in degrees (or null).
-  //     bearing: 159.60000610351562,
-  //     // True if the location was simulated by software, rather than GPS.
-  //     simulated: false,
-  //     // Speed in metres per second (or null).
-  //     speed: 23.51068878173828,
-  //     // Time the location was produced, in milliseconds since the unix epoch.
-  //     time: 1562731602000
+  // // // The location object.
+  // // {
+  // //     // Longitude in degrees.
+  // //     longitude: 131.723423719132,
+  // //     // Latitude in degrees.
+  // //     latitude: -22.40106297456,
+  // //     // Radius of horizontal uncertainty in metres, with 68% confidence.
+  // //     accuracy: 11,
+  // //     // Metres above sea level (or null).
+  // //     altitude: 65,
+  // //     // Vertical uncertainty in metres, with 68% confidence (or null).
+  // //     altitudeAccuracy: 4,
+  // //     // Deviation from true north in degrees (or null).
+  // //     bearing: 159.60000610351562,
+  // //     // True if the location was simulated by software, rather than GPS.
+  // //     simulated: false,
+  // //     // Speed in metres per second (or null).
+  // //     speed: 23.51068878173828,
+  // //     // Time the location was produced, in milliseconds since the unix epoch.
+  // //     time: 1562731602000
+  // // }
+  
+  // // If you just want the current location, try something like this. The longer
+  // // the timeout, the more accurate the guess will be. I wouldn't go below about
+  // // 100ms.
+
+  //   this.guess_location;
   // }
-  
-  // If you just want the current location, try something like this. The longer
-  // the timeout, the more accurate the guess will be. I wouldn't go below about
-  // 100ms.
 
-    this.guess_location;
-  }
-
-  private guess_location(callback: any, timeout: number) {
-    let last_location: any;
-    BackgroundGeolocation.addWatcher(
-        {
-            requestPermissions: false,
-            stale: true
-        },
-        function (location) {
-            last_location = location || undefined;
-            const speedSpan = document.getElementById('speed');
-            if (speedSpan) {
-              speedSpan.innerHTML = 'lol';
-              if (last_location.coords.speed) {
-                speedSpan.innerHTML = last_location.coords.speed;
-              }
-            }
-        }
-    ).then(function (id) {
-        setTimeout(function () {
-            callback(last_location);
-            BackgroundGeolocation.removeWatcher({id});
-        }, timeout);
-    });
-  }
+  // private guess_location(callback: any, timeout: number) {
+  //   let last_location: any;
+  //   BackgroundGeolocation.addWatcher(
+  //       {
+  //           requestPermissions: false,
+  //           stale: true
+  //       },
+  //       function (location) {
+  //           last_location = location || undefined;
+  //           const speedSpan = document.getElementById('speed');
+  //           if (speedSpan) {
+  //             speedSpan.innerHTML = 'lol';
+  //             if (last_location.coords.speed) {
+  //               speedSpan.innerHTML = last_location.coords.speed;
+  //             }
+  //           }
+  //       }
+  //   ).then(function (id) {
+  //       setTimeout(function () {
+  //           callback(last_location);
+  //           BackgroundGeolocation.removeWatcher({id});
+  //       }, timeout);
+  //   });
+  // }
 }
