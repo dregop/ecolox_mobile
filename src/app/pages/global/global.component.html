@@ -81,12 +81,12 @@
           <img  [src]="'../../../assets/' + level + '_plant.png'" alt="Plant" class="max-w-[50%] m-auto">
         </div>
  
-        <div class="flex flex-col w-full items-center mt-[-50px]">
+        <!-- <div class="flex flex-col w-full items-center mt-[-50px]">
           <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
             <div class="bg-amber-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 80%;height: 100%;">80%</div>
           </div>
           <span class="text-xs font-semibold mb-2">Limite Hébdomadaire</span>
-        </div>    
+        </div>     -->
 
         <div class="flex flex-col w-full items-center">
           <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
@@ -112,48 +112,52 @@
         <div class="basis-1/3 text-xs text-center">Mieux classé parmi les utilisateurs</div>
       </div>
      </div> -->
-     <div *ngIf="acheived_challenges.length > 0" class="basis-3/6 p-2 overflow-auto">
+     <div *ngIf="acheived_challenges.length === 0" class="basis-3/6 p-2 overflow-auto">
       <div class="basis-1/4 text-center font-semibold p-1">
         Prochains défis à votre portée :
       </div>
       <div class="div_defi">
         <div>
-          20 <img class="w-8"  src="../../../assets/drop.svg">
+          20 cl<img class="w-8"  src="../../../assets/drop.svg">
         </div>
         
-        <span class="ml-8">- - - Respecter la limite journalière pendant une journée</span>
+        <span class="ml-8">- - - Démarrer le suivi sur au moins une catégorie</span>
       </div>
       <div class="div_defi">
-        <img class="w-6"  src="../../../assets/cross.svg">
+        <div>
+          200 cl<img class="w-8"  src="../../../assets/drop.svg">
+        </div>
         <span class="ml-10">- - - Respecter la limite journalière pendant une semaine</span>
       </div>
       <div class="div_defi">
-        <img class="w-6"  src="../../../assets/cross.svg">
+        <div>
+          200 cl<img class="w-8"  src="../../../assets/drop.svg">
+        </div>
         <span class="ml-10">- - - Ajouter minimum 20 produits en une semaine</span>
       </div>
      </div>
-     <div *ngIf="acheived_challenges.length === 0" class="basis-3/6 p-2 flex flex-col overflow-auto">
+     <div *ngIf="acheived_challenges.length > 0" class="basis-3/6 p-2 flex flex-col overflow-auto">
       <div class="basis-1/6 text-center font-semibold p-1">
         Derniers défis accomplis :
       </div>
       <div class="basis-4/6 overflow-auto">
         <div class="div_defi">
           <div class="flex flex-row">
-            <span>10 ml</span> 
+            <span>10 cl</span> 
             <img class="w-4"  src="../../../assets/drop.svg">
           </div>
           <span class="ml-8">- - - Respecter la limite journalière pendant une journée</span>
         </div>
         <div class="div_defi">
           <div class="flex flex-row">
-            <span>100 ml</span> 
+            <span>100 cl</span> 
             <img class="w-4"  src="../../../assets/drop.svg">
           </div>
           <span class="ml-10">- - - Respecter la limite journalière pendant une semaine</span>
         </div>
         <div class="div_defi">
           <div class="flex flex-row">
-            <span>50 ml</span> 
+            <span>50 cl</span> 
             <img class="w-4"  src="../../../assets/drop.svg">
           </div>
           <span class="ml-10">- - - Ajouter minimum 20 produits en une semaine</span>

@@ -8,14 +8,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { GlobalComponent } from './pages/global/global.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/internet', pathMatch: 'full' },
+  { path: '', redirectTo: '/global', pathMatch: 'full' },
   { path: 'internet', component: InternetComponent},
   { path: 'achats', component: ShoppingComponent},
   { path: 'deplacement', component: TravelComponent},
   { path: 'global', component: GlobalComponent},
   { path: 'mentions-legales', component: LegalMentionsComponent},
   { path: 'mot-de-passe-oublie/:token', component: ResetPasswordComponent},
-  { path: '**', redirectTo: '/internet'}
+  { path: '**', redirectTo: '/global'}
 ];
 
 @NgModule({

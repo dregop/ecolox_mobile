@@ -5,6 +5,7 @@ const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("Backg
 import { Geolocation } from '@capacitor/geolocation';
 import { h } from 'ionicons/dist/types/stencil-public-runtime';
 import { BackgroundGeolocationService } from 'src/app/services/background-geolocation.service';
+import { TravelService } from './services/travel.service';
 
 export  class Travel {
   name?: string;
@@ -24,46 +25,48 @@ export class TravelComponent implements OnInit {
     enableHighAccuracy: true,
     timeout: 5000,
   };
-  public travelTimeSerie!: Travel[];
+  public travelTimeSerie: Travel[] = [];
   
-  constructor(private geolocationService: BackgroundGeolocationService) {}
+  constructor(private geolocationService: BackgroundGeolocationService, private travelService: TravelService) {}
   
   ngOnInit(): void {
-  }
-
-  private getSpeed(pos: any) {
     this.geolocationService.getData().subscribe({
-      next: (data) => {
-        console.log('Location data:', data);
-        this.travelTimeSerie = data;
+      next: (val) => {
+        if (val && val.data) {
+        this.travelTimeSerie = JSON.parse(val.data);
+        this.travelTimeSerie = this.travelService.formatDate(this.travelTimeSerie);
+        console.log('# Database data');
+        console.log(this.travelTimeSerie);
+        }
       },
       error: (error) => {
         console.log(error);
       }
     });
-
-    const speedSpan = document.getElementById('speed');
-    if (pos && pos.coords && speedSpan) {
-      const speed = Math.trunc(pos.coords.speed as number * 3.6);
-      speedSpan.innerHTML = speed  + ' km/h';
-      this.travelTimeSerie.push({speed: speed, date: new Date()})
-        this.geolocationService.saveLocation({
-          'category': 'shopping',
-          'data': JSON.stringify(this.travelTimeSerie)
-        }).subscribe({
-          next: () => {
-            console.log('data saved');
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
-    }
   }
 
   public start() {
+    // const _this = this;
     setInterval(async () => {
-      this.geoloc = await Geolocation.watchPosition(this.options, this.getSpeed);
+      this.geoloc = await Geolocation.watchPosition(this.options, (pos: any) => {
+        const speedSpan = document.getElementById('speed');
+        if (pos && pos.coords && speedSpan) {
+          const speed = Math.trunc(pos.coords.speed as number * 3.6);
+          speedSpan.innerHTML = speed  + ' km/h';
+          this.travelTimeSerie.push({speed: speed, date: new Date()});
+          this.geolocationService.saveLocation({
+            'category': 'shopping',
+            'data': JSON.stringify(this.travelTimeSerie)
+          }).subscribe({
+            next: () => {
+              console.log('data saved');
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
+        }
+      });
     }, 2000);
   }
 
