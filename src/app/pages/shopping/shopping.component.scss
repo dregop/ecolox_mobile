@@ -1,22 +1,3 @@
-#menu {
-    width: 10%;
-    height: 90vh;
-    z-index: 60;
-    margin-left: -13px;
-}
-#main {
-    margin-left: 4%;
-    width: 86%;
-    height:85vh;
-}
-#container {
-    display: flex;
-    height: 100%;
-}
-legend {
-    font-size: 1.8em;
-    color: rgb(56, 56, 56);
-}
 
 .category {
     @apply flex flex-col border-2 rounded p-2 items-center mr-4 mt-2 text-xs shrink basis-1/6
