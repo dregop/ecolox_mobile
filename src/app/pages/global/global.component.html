@@ -14,7 +14,7 @@
                       <img src="../../assets/co2.svg" width="40px" height="40px" >
                       <span class="font-semibold text-red-500">0 kgCO<sub>2</sub>e</span>
                   </div> <span class="flex items-center">=</span>
-                  <div class="flex flex-col items-center basis-1/3  m-1 max-w-[150px]">
+                  <div class="flex flex-col items-center basis-1/3  m-1  max-w-[150px]">
                       <img src="../../assets/car.svg" width="35px" height="35px" class="mr-1">
                       <span id="kmByCar_max">4 Km</span>
                   </div>
@@ -25,19 +25,30 @@
                   </div>
               </div>
   
-          <div id="level" class="items-center flex flex-row mr-1 p-2 ml-8 mr-2 items-center bg-stone-200 text-slate-800 text-xl justify-evenly border-2 border-stone-400 rounded-lg" (click)="displayChallenges()">
+          <!-- <div id="level" class="items-center flex flex-row mr-1 p-2 ml-8 mr-2 items-center bg-stone-200 text-slate-800 text-xl justify-evenly border-2 border-stone-400 rounded-lg" (click)="displayChallenges()">
                   <span class="uppercase font-semibold">Défis</span>
                   <img src="../../../assets/crossed-swords.svg" width="20px" height="20px">
                   <div class="ml-2"><span class="font-semibold text-lime-500">4</span> / <span class="font-semibold">20</span></div>
-          </div>
+          </div> -->
           </div>
       </div>
   
   </div>
 
-  <div class="basis-3/4 flex flex-row text-slate-700 items-center text-center">
-    <loader *ngIf="loading" class="w-full"></loader>
-    <div *ngIf="!IsChallengesStarted && !loading" class="flex flex-col justify-evenly items-center w-full h-full">
+  <div class="basis-3/4 flex flex-col text-slate-700 items-center text-center">
+    <!-- <loader *ngIf="loading" class="w-full"></loader> -->
+      <div class="basis-1/2">
+        <!-- niveau débutant -->
+        Personaliser votre suivi en cliquant sur une des catégories du graph :
+      </div>
+      <div class="basis-1/2">
+        graph par catég (titre : Répartition par catégorie pour un français moyen sur 1 année (possibilité de faire varier la range))
+      </div>
+
+      <!-- <div #bar_chart id="bar_chart">
+
+      </div> -->
+    <!-- <div *ngIf="!IsChallengesStarted && !loading" class="flex flex-col justify-evenly items-center w-full h-full">
       <img src="../../../assets/seed.png" alt="Seed Budy" class="w-1/2 mt-[-40px]">
       <span class="text-xl font-semibold border-2 rounded-lg p-4 bg-slate-100">Commence les défis et fais moi grandir :D</span>
       <button class="flex flex-row items-center" (click)="startChallenges()">
@@ -47,7 +58,7 @@
 
     </div>
     <div class="w-full flex flex-col" *ngIf="IsChallengesStarted && !loading">
-      <!-- <div class="basis-1/6 bg-stone-100 flex flex-col items-center m-1">
+       <div class="basis-1/6 bg-stone-100 flex flex-col items-center m-1">
         <div class="basis-1/4 text-center font-semibold p-1">
           Niveau
         </div>
@@ -65,28 +76,28 @@
         <div class="basis-1/4 text-xs text-center">
           +4% cette semaine
         </div>
-      </div> -->
+      </div> 
       <div class="basis-3/6 flex flex-col items-center">
-        <!-- <div class="absolute right-8 flex flex-col items-center">
+         <div class="absolute right-8 flex flex-col items-center">
           <div class="w-16 h-16 rounded-full border-2 bg-amber-200 flex flex-row items-center"><span class="w-full text-center text-xl font-bold text-amber-600">+15%</span></div>
           <div class="text-xs text-slate-700 w-24 text-center font-semibold">Pollution / semaine dernière</div>
-        </div> -->
+        </div>
 
-        <!-- <div class="absolute right-8 flex flex-col items-center">
+        <div class="absolute right-8 flex flex-col items-center">
           <div class="w-16 h-16 rounded-full border-2 bg-lime-200 flex flex-row items-center"><span class="w-full text-center text-xl font-bold text-lime-600">111<span class="text-xs">ème</span></span></div>
           <div class="text-xs text-slate-700 w-24 text-center font-semibold">Rang</div>
-        </div> -->
+        </div> 
 
         <div class="basis-3/6"> 
           <img  [src]="'../../../assets/' + level + '_plant.png'" alt="Plant" class="max-w-[50%] m-auto">
         </div>
  
-        <!-- <div class="flex flex-col w-full items-center mt-[-50px]">
+        <div class="flex flex-col w-full items-center mt-[-50px]">
           <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
             <div class="bg-amber-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 80%;height: 100%;">80%</div>
           </div>
           <span class="text-xs font-semibold mb-2">Limite Hébdomadaire</span>
-        </div>     -->
+        </div>   
 
         <div class="flex flex-col w-full items-center">
           <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4">
@@ -102,7 +113,7 @@
           <span class="basis-1/6 text-xs font-semibold">Niveau {{level}}</span>
         </div>
       </div>
-     <!-- <div class="basis-1/6 p-4 flex flex-row">
+      <div class="basis-1/6 p-4 flex flex-row">
       <div class="basis-1/2 border-2 border-stone-300 flex flex-col items-center mr-2 p-2">
         <div class="basis-2/3 text-7xl font-bold text-lime-400 p-2 text-center">9%</div>
         <div class="basis-1/3 text-xs text-center">Moins pollué que la semaine dernière</div>
@@ -111,7 +122,7 @@
         <div class="basis-2/3 text-7xl font-bold text-slate-500 p-2 text-center">15%</div>
         <div class="basis-1/3 text-xs text-center">Mieux classé parmi les utilisateurs</div>
       </div>
-     </div> -->
+     </div> 
      <div *ngIf="acheived_challenges.length === 0" class="basis-3/6 p-2 overflow-auto">
       <div class="basis-1/4 text-center font-semibold p-1">
         Prochains défis à votre portée :
@@ -173,22 +184,27 @@
       </div>
       
      </div>
-    </div>
+    </div> -->
   </div>
 
   <div class="relative bottom-0 text-center">
-      <button class="btn-menu-graph activated">
+      <!-- <button class="btn-menu-graph activated">
           <img src="../../../assets/list.svg" alt="Bouton Liste" width="25px" height="25px">
-      </button>
-      <button class="btn-menu-graph" id="lineButton" title="Afficher la courbe">
+      </button> -->
+      <!-- <button class="btn-menu-graph" id="lineButton" title="Afficher la courbe">
           <img src="../../../assets/chart-line.svg" alt="Bouton Courbe" width="25px" height="25px">
       </button>
       <button class="btn-menu-graph" id="barButton" title="Afficher le diagramme">
           <img src="../../../assets/chart-bar.svg" width="25px" height="25px" alt="Bouton diagramme" >
-      </button>
+      </button> -->
+      <!-- <button class="btn-menu-graph book">
+        <img src="../../../assets/book.svg" alt="Apprentissage" width="35px" height="35px">
+      </button> -->
   </div>
 
 </div>
+
+<overlay-message id="overlay_message"></overlay-message>
 
 <div id="toast">
   <span>{{ toastService.toastMessage }}</span>

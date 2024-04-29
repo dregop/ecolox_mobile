@@ -50,10 +50,10 @@ export class BarChartComponent implements OnInit {
         if (features && features.level) {
           this.userFeatures = features;
         } else {
-          const overlay_message = document.getElementById('overlay_message');
-          if (overlay_message) {
-            overlay_message.style.display = 'block';
-          }
+          // const overlay_message = document.getElementById('overlay_message');
+          // if (overlay_message) {
+          //   overlay_message.style.display = 'block';
+          // }
         }
       },
       error: (err) => console.log(err.message)

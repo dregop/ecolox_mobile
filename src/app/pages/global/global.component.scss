@@ -10,6 +10,9 @@
     @apply rounded-lg border-2 border-lime-400 p-2 m-1 mb-2 bg-lime-300 hover:bg-slate-200 active:bg-slate-300
 }
 
+.book {
+    @apply ml-8
+}
 #toast {
     visibility: hidden;
     position: absolute;
@@ -51,4 +54,23 @@
 @keyframes fadeout {
     from {opacity: 1}
     to {opacity: 0}
+}
+
+#bar_chart {
+    width: 95%;
+    height: 100%;
+}
+
+.y-axis-label {
+    fill: black;
+    font-size: 1.4em;
+    text-anchor: middle;
+    transform: rotate(-90deg);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    padding: 5em 1em;
+    font-family: sans-serif;
 }
