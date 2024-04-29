@@ -55,7 +55,7 @@ export class TravelComponent implements OnInit {
           speedSpan.innerHTML = speed  + ' km/h';
           this.travelTimeSerie.push({speed: speed, date: new Date()});
           this.geolocationService.saveLocation({
-            'category': 'shopping',
+            'category': 'travel',
             'data': JSON.stringify(this.travelTimeSerie)
           }).subscribe({
             next: () => {
