@@ -11,7 +11,7 @@ export  class Travel {
   name?: string;
   date!: any;
   speed!: number;
-  co2?: number;
+  co2!: number;
 }
 
 @Component({
@@ -53,7 +53,7 @@ export class TravelComponent implements OnInit {
         if (pos && pos.coords && speedSpan) {
           const speed = Math.trunc(pos.coords.speed as number * 3.6);
           speedSpan.innerHTML = speed  + ' km/h';
-          this.travelTimeSerie.push({speed: speed, date: new Date()});
+          this.travelTimeSerie.push({speed: speed, date: new Date(), co2: 0});
           this.geolocationService.saveLocation({
             'category': 'travel',
             'data': JSON.stringify(this.travelTimeSerie)

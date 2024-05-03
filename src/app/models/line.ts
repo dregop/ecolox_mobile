@@ -25,12 +25,13 @@ export class Line {
     public define(data: any[], x: any, y: any, curveType?: d3.CurveFactory | d3.CurveBundleFactory): any {
         let curve = curveType === undefined ? d3.curveMonotoneX : curveType;
         return d3.line<any>().curve(curve)
-            .x(function (d) {
-                if (d.date instanceof Date) {
-                return x(d.date.getTime());
-                } 
-            })
-            .y(function (d) { return y(d.co2); })(data);
+        .x(function (d) {
+            if (d.date instanceof Date) {
+            return x(d.date.getTime());
+            } 
+        })
+        .y(function (d) { return y(d.co2); })(data);
+    
     }
 
     public addToPath(linesGroup: any): any {

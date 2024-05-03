@@ -143,7 +143,7 @@ export class LineChartTravelComponent implements OnInit {
           this.chartProps.svgBox.call(this.zoom as any, d3.zoomIdentity);
         }
         this.onZoom = !this.onZoom; // to disable update when we want to zoom/pan
-        this.travelService.$onZoom.next(this.onZoom); // propage to graphService
+        this.travelService.$onZoom.next(this.onZoom); // propagate 
       }
     });
 
@@ -338,7 +338,7 @@ export class LineChartTravelComponent implements OnInit {
       }
     });
 
-    const date_filters = document.getElementById('date-filters');
+    const date_filters = document.getElementById('filters');
     const buttons = date_filters?.getElementsByTagName('button');
     const rightButtonDay = document.getElementById('right-button-day');
     const leftButtonDay = document.getElementById('left-button-day');
@@ -532,12 +532,12 @@ export class LineChartTravelComponent implements OnInit {
           }
 
           const deltaDate = 3600000 * 24 * (displayedDay - (i + 1)); // 3.6e6 = 1 hour
-          const deltaCo2 = this.dataSumDbExtCo2TimeSerieFiltered[0].speed - dataDayOfWeek[0].speed;
+          const deltaCo2 = this.dataSumDbExtCo2TimeSerieFiltered[0].co2 - dataDayOfWeek[0].co2;
 
           let newData: Travel[] = [];
           dataDayOfWeek.forEach((point) => {
             const date = new Date(point.date).getTime() + deltaDate;
-            const co2 = point.speed + deltaCo2;
+            const co2 = point.co2 + deltaCo2;
             newData.push({date: new Date(date), co2: co2, name: point.name, speed: point.speed});
           });
   
@@ -685,7 +685,7 @@ export class LineChartTravelComponent implements OnInit {
     .scaleExtent([1, 20]);
 
     // TOOLTIP
-    this.travelService.buildTooltip(this.chartProps);
+    // this.travelService.buildTooltip(this.chartProps);
 
     // Add avatars for each Lines
     this.valueslines.forEach(line => {
@@ -759,11 +759,11 @@ export class LineChartTravelComponent implements OnInit {
     let diff_between_dataDrawn_minmax_date = this.dataDrawnCo2TimeSerie[this.dataDrawnCo2TimeSerie.length - 1].date - this.dataDrawnCo2TimeSerie[0].date;
     diff_between_dataDrawn_minmax_date /= (3.6e+6); // heures
     if (diff_between_dataDrawn_minmax_date < 24 && threshold) {
-      this.thresholdCo2 = this.dataDrawnCo2TimeSerie[0].speed + threshold;
+      this.thresholdCo2 = this.dataDrawnCo2TimeSerie[0].co2 + threshold;
     } else if (diff_between_dataDrawn_minmax_date >= 24 && diff_between_dataDrawn_minmax_date < 24*7 && threshold) {
-      this.thresholdCo2 = this.dataDrawnCo2TimeSerie[0].speed + threshold * 7;
+      this.thresholdCo2 = this.dataDrawnCo2TimeSerie[0].co2 + threshold * 7;
     } else if (diff_between_dataDrawn_minmax_date >= 24*7 && diff_between_dataDrawn_minmax_date < 24*31 && threshold) {
-      this.thresholdCo2 = this.dataDrawnCo2TimeSerie[0].speed + threshold * 30;
+      this.thresholdCo2 = this.dataDrawnCo2TimeSerie[0].co2 + threshold * 30;
     } else {
       this.thresholdCo2 = 100000;
     }

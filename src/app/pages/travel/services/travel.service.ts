@@ -140,7 +140,7 @@ export class TravelService {
         }
       })]
     );
-    y.domain([d3.min(data, function (d) { return d.co2 }), d3.max(data, function (d) { return d.speed + d.speed/100; })]); // define the range of y axis
+    y.domain([d3.min(data, function (d) { return d.speed }), d3.max(data, function (d) { return d.speed + d.speed/100; })]); // define the range of y axis
       // i want y axis to start at the first value recorded not zéro so that it is nicer to see
   }
 

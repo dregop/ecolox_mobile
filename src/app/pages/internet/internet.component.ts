@@ -56,6 +56,9 @@ export class InternetComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
 
+    const GESgCO2ForOneKmByCar = 220;
+    const GESgCO2ForOneChargedSmartphone = 8.3;
+
     this.graphService.$browserName.subscribe((browser) => {
       this.browserName = browser;
     });
@@ -89,6 +92,22 @@ export class InternetComponent implements OnInit, AfterContentInit {
           console.log('# Database data');
           console.log(this.dataDbCo2TimeSerie);
           this.dataSumDbExtensionCo2TimeSerie = [...this.dataDbCo2TimeSerie]; // deep copy
+          let gCO2Total = (this.dataSumDbExtensionCo2TimeSerie[this.dataSumDbExtensionCo2TimeSerie.length - 1].co2 / 1000);
+          const co2_internet = document.getElementById('co2_internet');
+          if (co2_internet && this.dataSumDbExtensionCo2TimeSerie.length > 0) {
+            co2_internet.innerHTML = gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e';
+          }
+          const kmByCar_max = document.getElementById('kmByCar_max');
+          if (kmByCar_max) {
+            const kmByCar = Math.round(1000 * gCO2Total / GESgCO2ForOneKmByCar);
+            kmByCar_max.innerHTML = kmByCar.toFixed(1) + ' Km';
+
+          }
+          const chargedSmartphones_max = document.getElementById('chargedSmartphones_max');
+          if (chargedSmartphones_max) {
+            const chargedSmartphones = Math.round(gCO2Total / GESgCO2ForOneChargedSmartphone * 1000);
+            chargedSmartphones_max.innerHTML = chargedSmartphones.toFixed(0) + ' recharges';
+          }
         }
         this.dataSumDbExtensionCo2TimeSerie = [...this.dataDbCo2TimeSerie]; // deep copy
       }
