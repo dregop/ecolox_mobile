@@ -206,6 +206,7 @@ export class GlobalComponent  implements OnInit {
     // Add the Y Axis
     const gy = svgBox.append('g')
       .attr('class', 'y axis')
+      .style("font-weight", "600")
       .call(yAxis, this.chartProps.y);
 
     gy.selectAll(".tick line").style("opacity", "0");

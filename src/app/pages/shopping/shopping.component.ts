@@ -138,7 +138,7 @@ export class ShoppingComponent implements OnInit {
 
   productSearch() {
     // Adding keyup Event Listerner on input field
-    const search$ = fromEvent(this.carSearchInput.nativeElement, 'keyup').pipe(
+    const search$ = fromEvent(this.carSearchInput.nativeElement, 'input').pipe(
       map((event: any) => event.target.value),
       debounceTime(300),  
       distinctUntilChanged(),
