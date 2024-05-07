@@ -97,6 +97,10 @@ export class InternetComponent implements OnInit, AfterContentInit {
           if (co2_internet && this.dataSumDbExtensionCo2TimeSerie.length > 0) {
             co2_internet.innerHTML = gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e';
           }
+          const co2_internet_resume = document.getElementById('co2_internet_resume');
+          if (co2_internet_resume && gCO2Total > 0) {
+            co2_internet_resume.innerHTML = 'Vous avez émis ' + gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e ';
+          }
           const kmByCar_max = document.getElementById('kmByCar_max');
           if (kmByCar_max) {
             const kmByCar = Math.round(1000 * gCO2Total / GESgCO2ForOneKmByCar);

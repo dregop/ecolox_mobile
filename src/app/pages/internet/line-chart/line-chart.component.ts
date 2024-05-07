@@ -741,6 +741,30 @@ export class LineChartComponent implements OnInit {
     // propage 
     this.graphService.$dataDrawnCo2TimeSerie.next(this.dataDrawnCo2TimeSerie);
 
+  
+    const GESgCO2ForOneKmByCar = 220;
+    const GESgCO2ForOneChargedSmartphone = 8.3;
+    let gCO2Total = (this.dataDrawnCo2TimeSerie[this.dataDrawnCo2TimeSerie.length - 1].co2 / 1000);
+    const co2_internet = document.getElementById('co2_internet');
+    if (co2_internet && this.dataDrawnCo2TimeSerie.length > 0) {
+      co2_internet.innerHTML = gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e';
+    }
+    const co2_internet_resume = document.getElementById('co2_internet_resume');
+    if (co2_internet_resume && gCO2Total > 0) {
+      co2_internet_resume.innerHTML = 'Vous avez émis ' + gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e ';
+    }
+    const kmByCar_max = document.getElementById('kmByCar_max');
+    if (kmByCar_max) {
+      const kmByCar = Math.round(1000 * gCO2Total / GESgCO2ForOneKmByCar);
+      kmByCar_max.innerHTML = kmByCar.toFixed(1) + ' Km';
+
+    }
+    const chargedSmartphones_max = document.getElementById('chargedSmartphones_max');
+    if (chargedSmartphones_max) {
+      const chargedSmartphones = Math.round(gCO2Total / GESgCO2ForOneChargedSmartphone * 1000);
+      chargedSmartphones_max.innerHTML = chargedSmartphones.toFixed(0) + ' recharges';
+    }
+
     // Update mainLine data
     this.mainLine.data = this.dataDrawnCo2TimeSerie;
 

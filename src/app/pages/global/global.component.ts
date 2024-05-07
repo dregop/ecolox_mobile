@@ -4,6 +4,7 @@ import { ToastService, toastType } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 import * as d3 from 'd3';
 import { GraphService } from '../internet/services/graph.service';
+import { Router } from '@angular/router';
 
 export interface Challenge {
   id: number,
@@ -45,7 +46,7 @@ export class GlobalComponent  implements OnInit {
   ];
   public bars!: any;
 
-  constructor(public toastService: ToastService, public userService: UserService, private graphService: GraphService) { }
+  constructor(public toastService: ToastService, public userService: UserService, private graphService: GraphService, private router: Router) { }
 
   ngOnInit() {
 
@@ -153,7 +154,7 @@ export class GlobalComponent  implements OnInit {
     this.chartProps.x = d3.scaleBand()
     .domain(this.dataGlobalMean.map((d) => d.origin))
     .range([0, width])
-    .padding(0.1);
+    .padding(0.2);
 
     this.chartProps.y = d3.scaleLinear()
     .domain([0, d3.max(this.dataGlobalMean, (d) => d.co2 as any + d.co2/15)]) // as any -> otherwise error
@@ -177,10 +178,16 @@ export class GlobalComponent  implements OnInit {
         .attr("height", (d) => this.chartProps.y(0) - this.chartProps.y(d.co2))
         .attr("width", 50);
 
+    this.bars        
+    .on('click', (d: any) => {
+      this.navigateTo(d);
+    })
+
     // Add the X Axis
     const gx = svgBox.append('g')
       .attr('class', 'x axis')
-      .style("font-size", "15px")
+      .style("font-size", "13px")
+      .style("font-weight", "600")
       .attr('transform', `translate(0,${height})`)
       .call(xAxis, this.chartProps.x);
 
@@ -253,7 +260,6 @@ export class GlobalComponent  implements OnInit {
   }
 
   public setBarColors(data: Co2ByOriginByTime) {
-    console.log(data);
     if (data.origin == 'deplacement') {
       return '#FFDE59';
     } else if (data.origin == 'maison') {
@@ -263,7 +269,19 @@ export class GlobalComponent  implements OnInit {
     } else {
       return '#56ACE0';
     }
+  }
 
+  public navigateTo(data: any) {
+    console.log(data);
+    if (data.label == 'deplacement') {
+      return this.router.navigate(['/deplacement']);
+    } else if (data.origin == 'maison') {
+      return this.router.navigate(['/global']);
+    } else if (data.origin == 'achats') {
+      return this.router.navigate(['/achats']);
+    } else {
+      return this.router.navigate(['/internet']);
+    }  
   }
 
   public trunc(numb:number): number {
@@ -316,6 +334,15 @@ export class GlobalComponent  implements OnInit {
         },
         error: (err) => console.log(err.message)
       });
+    }
+
+  }
+
+  public displayOverLayMessage() {
+    const overlay = document.getElementById('overlay_message');
+    if (overlay) {
+      overlay.style.display = 'block';
+
     }
 
   }

@@ -32,11 +32,11 @@
 
     <div class="basis-1/4 w-full items-center text-center flex flex-col items-center text-base text-slate-600  p-1">
 
-        <div>
+        <div class="text-xl">
             <div class="basis-2/3">
                 <img src="../../assets/shopping.svg" alt="Achats" height="30px" width="30px" class="inline mr-2">
                 <span class="inline mr-4 font-medium">ACHATS</span>
-                <span id="time_range"></span>
+                <span id="time_range" class="ml-4 text-amber-600"></span>
             </div>
         </div>
     
@@ -58,14 +58,12 @@
                     </div>
                 </div>
     
-            <!-- <div id="level" class="items-center flex flex-row mr-1 p-2 ml-8 mr-2 items-center bg-stone-200 text-slate-800 text-xl justify-evenly border-2 border-stone-400 rounded-lg" (click)="displayChallenges()">
-                    <span class="uppercase font-semibold">Défis</span>
-                    <img src="../../../assets/crossed-swords.svg" width="20px" height="20px">
-                    <div class="ml-2"><span class="font-semibold text-lime-500">1</span> / <span class="font-semibold">12</span></div>
-            </div> -->
-            <div *ngIf="dbProducts.length > 0" class="text-center font-semibold text-xl">
-                Vous avez émis {{ (dbProducts[dbProducts.length - 1].co2).toFixed(1)}} kgCO<sub>2</sub>e ce mois
-            </div>
+                <!-- <div id="level" class="items-center flex flex-row mr-1 p-2 ml-8 mr-2 items-center bg-stone-200 text-slate-800 text-xl justify-evenly border-2 border-stone-400 rounded-lg" (click)="displayChallenges()">
+                        <span class="uppercase font-semibold">Défis</span>
+                        <img src="../../../assets/crossed-swords.svg" width="20px" height="20px">
+                        <div class="ml-2"><span class="font-semibold text-lime-500">1</span> / <span class="font-semibold">12</span></div>
+                </div> -->
+                <div id="co2_shopping_resume" class="text-center font-semibold text-xl"></div>
             </div>
             
     

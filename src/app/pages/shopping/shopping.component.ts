@@ -61,6 +61,10 @@ export class ShoppingComponent implements OnInit {
             gCO2Total = this.dbProducts[this.dbProducts.length - 1].co2;
             co2_shopping.innerHTML = gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e';
           }
+          const co2_shopping_resume = document.getElementById('co2_shopping_resume');
+          if (co2_shopping_resume && gCO2Total > 0) {
+            co2_shopping_resume.innerHTML = 'Vous avez émis ' + gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e';
+          }
           const kmByCar_max = document.getElementById('kmByCar_max');
           if (kmByCar_max) {
             const kmByCar = Math.round(1000 * gCO2Total / GESgCO2ForOneKmByCar);
