@@ -31,7 +31,7 @@
                     <div class="ml-2"><span class="font-semibold text-lime-500">1</span> / <span class="font-semibold">12</span></div>
             </div> -->
             <div *ngIf="dataSumDbExtensionCo2TimeSerie.length > 0" class="text-center font-semibold text-xl">
-                Vous avez émis {{ (dataSumDbExtensionCo2TimeSerie[dataSumDbExtensionCo2TimeSerie.length - 1].co2 / 1000).toFixed(1)}} kgCO<sub>2</sub>e aujourd'hui
+                Vous avez émis {{ (dataSumDbExtensionCo2TimeSerie[dataSumDbExtensionCo2TimeSerie.length - 1].co2 / 1000).toFixed(1)}} kgCO<sub>2</sub>e depuis le début
             </div>
             </div>
             
@@ -41,7 +41,7 @@
     </div>
 
     <div class="basis-3/4">
-        <line-chart [dataDb]="dataDbCo2TimeSerie" [dataExt]="dataExtensionCo2TimeSerie" [dataGlobal]="dataGlobalMeanCo2TimeSerie" [firstDataExt]="firstDataExtensionCo2TimeSerie" [dataSumDbExt]="dataSumDbExtensionCo2TimeSerie" *ngIf="displayLineChart()" class="relative z-50"></line-chart>
+        <line-chart [dataDb]="dataDbCo2TimeSerie" [dataExt]="dataExtensionCo2TimeSerie" [dataGlobal]="dataGlobalMeanCo2TimeSerie" [firstDataExt]="firstDataExtensionCo2TimeSerie" [dataSumDbExt]="dataSumDbExtensionCo2TimeSerie" *ngIf="displayLineChart()" class="relative z-50 "></line-chart>
 
         <bar-chart [dataDb]="dataDbCo2TimeSerie" [dataExt]="dataExtensionCo2TimeSerie" [dataGlobal]="dataGlobalMeanCo2TimeSerie" [firstDataExt]="firstDataExtensionCo2TimeSerie" [dataSumDbExt]="dataSumDbExtensionCo2TimeSerie" *ngIf="displayBarChart()" class="relative z-50"></bar-chart>
     </div>

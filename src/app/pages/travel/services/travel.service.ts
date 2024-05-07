@@ -140,7 +140,7 @@ export class TravelService {
         }
       })]
     );
-    y.domain([d3.min(data, function (d) { return d.speed }), d3.max(data, function (d) { return d.speed + d.speed/100; })]); // define the range of y axis
+    y.domain([d3.min(data, function (d) { return d.co2 }), d3.max(data, function (d) { return d.co2 + d.co2/100; })]); // define the range of y axis
       // i want y axis to start at the first value recorded not zéro so that it is nicer to see
   }
 
@@ -231,7 +231,7 @@ export class TravelService {
       const hoveredDate = chartPropX.invert(mousePosition[0]);
       const hoveredCo2 = chartPropY.invert(mousePosition[1]);
   
-      const yAccessor = (d: Travel) => d.speed;
+      const yAccessor = (d: Travel) => d.co2;
       const xAccessor = (d: Travel) => d.date;
   
       const getDistanceFromHoveredDate = (d: Travel) => Math.abs((xAccessor(d) as unknown as number) - hoveredDate);
@@ -246,7 +246,7 @@ export class TravelService {
       if (closestIndex) {
         closestDataPoint = _this.dataDrawnCo2TimeSerie[closestIndex !== -1 ? closestIndex : 0];
 
-        const Ymax = d3.max(_this.dataDrawnCo2TimeSerie, (d) => { return d.speed + d.speed/15; });
+        const Ymax = d3.max(_this.dataDrawnCo2TimeSerie, (d) => { return d.co2 + d.co2/15; });
         const Xmax = Math.abs(xAccessor(_this.dataDrawnCo2TimeSerie[_this.dataDrawnCo2TimeSerie.length - 1]) - xAccessor(_this.dataDrawnCo2TimeSerie[0]));
         // console.log(Xmax);
         // console.log(Ymax);
@@ -270,7 +270,7 @@ export class TravelService {
       const closestYValue = yAccessor(closestDataPoint);
 
       // We only print the co2 emitted since the beginning of the currently showing range of x
-      const gSpeed = closestYValue - _this.dataDrawnCo2TimeSerie[0].speed;
+      const gCo2 = closestYValue - _this.dataDrawnCo2TimeSerie[0].co2;
 
       // const kmByCar = Math.round(1000 * gCo2 / _this.GESgCO2ForOneKmByCar) / 1000;
       // const chargedSmartphones = Math.round(gCo2 / _this.GESgCO2ForOneChargedSmartphone);
@@ -278,7 +278,7 @@ export class TravelService {
       const formatDate = _this.d3Locale.format("%-d %b %Y à %H:%M");
       _this.tooltip.select("#start_date").text('Du ' + formatDate(xAccessor(_this.dataDrawnCo2TimeSerie[0]) as unknown as Date));
       _this.tooltip.select("#date").text('Au ' + formatDate(closestXValue as unknown as Date));
-      _this.tooltip.select("#co2").html(gSpeed.toFixed(2) + ' km/h');
+      _this.tooltip.select("#co2").html(gCo2.toFixed(2) + ' km/h');
       // _this.tooltip.select("#kmByCar").html(kmByCar.toFixed(1) + 'Kms');
       // _this.tooltip.select("#chargedSmartphones").html(chargedSmartphones.toFixed(1) + ' charges');
       
@@ -391,7 +391,7 @@ export class TravelService {
     const uranium_max = document.getElementById('uranium_max');
     if (dataSum && dataSum.length > 2) {
       if (co2_max) {
-        co2_max.innerHTML = (dataSum[dataSum.length - 2].speed as unknown as string) + ' km/h';
+        co2_max.innerHTML = (dataSum[dataSum.length - 2].co2 as unknown as string) + ' km/h';
       }
 
     

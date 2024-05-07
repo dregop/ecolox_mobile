@@ -15,7 +15,7 @@ export interface Challenge {
 export  class Co2ByOriginByTime {
   co2!: number;
   date!: any;
-  origin?: string;
+  origin!: string;
 }
 
 @Component({
@@ -23,7 +23,7 @@ export  class Co2ByOriginByTime {
   templateUrl: './global.component.html',
   styleUrls: ['./global.component.scss'],
 })
-export class GlobalComponent  implements OnInit, AfterViewChecked {
+export class GlobalComponent  implements OnInit {
 
   @ViewChild('bar_chart') chartElement!: ElementRef;
   
@@ -38,10 +38,10 @@ export class GlobalComponent  implements OnInit, AfterViewChecked {
   public loading = true;
   public chartProps!: any;
   public dataGlobalMean: Co2ByOriginByTime[] = [
-    {co2: 4, date: Date.now(), origin: 'internet'},
-    {co2: 30, date: Date.now() + 10, origin: 'maison'},
-    {co2: 30, date: Date.now() + 20, origin: 'deplacement'},
-    {co2: 36, date: Date.now() + 30, origin: 'achats'},
+    {co2: 0.2, date: Date.now(), origin: 'internet'},
+    {co2: 3.5, date: Date.now() + 10, origin: 'maison'},
+    {co2: 3, date: Date.now() + 20, origin: 'deplacement'},
+    {co2: 2, date: Date.now() + 30, origin: 'achats'},
   ];
   public bars!: any;
 
@@ -119,13 +119,10 @@ export class GlobalComponent  implements OnInit, AfterViewChecked {
             this.pourcent_health = 100 - (100/6)*this.level;
           }
         }
+        this.build();
       },
       error: (err) => console.log(err.message)
     });
-  }
-
-  ngAfterViewChecked(): void {
-    this.build();
   }
 
   private build() {
@@ -154,7 +151,7 @@ export class GlobalComponent  implements OnInit, AfterViewChecked {
 
     // Set the ranges and domains
     this.chartProps.x = d3.scaleBand()
-    .domain(this.dataGlobalMean.map((d) => d.date))
+    .domain(this.dataGlobalMean.map((d) => d.origin))
     .range([0, width])
     .padding(0.1);
 
@@ -164,47 +161,49 @@ export class GlobalComponent  implements OnInit, AfterViewChecked {
 
     // Define the axes
     const xAxis = (g: any, x: any) => g
-    .call(d3.axisBottom(x).ticks(5).tickFormat(this.graphService.multiFormat).tickPadding(width / 80));
+    .call(d3.axisBottom(x));
     var yAxis = (g: any, y: any) => g
     .call(d3.axisLeft(y).tickPadding(height / 80).tickSize(-15000));
   
     // Add a rect for each bar.
     this.bars = svg.append("g")
-      .attr("fill", "orange")
       .attr("class", "bars")
       .selectAll()
       .data(this.dataGlobalMean)
       .join("rect")
-        .attr("x", (d) => this.chartProps.x(d.date) + margin.left)
+        .attr("fill", (d) => this.setBarColors(d))
+        .attr("x", (d) => this.chartProps.x(d.origin) + margin.left)
         .attr("y", (d) => this.chartProps.y(d.co2) + margin.top - 1)
         .attr("height", (d) => this.chartProps.y(0) - this.chartProps.y(d.co2))
-        .attr("width", this.chartProps.x.bandwidth());
+        .attr("width", 50);
 
     // Add the X Axis
     const gx = svgBox.append('g')
       .attr('class', 'x axis')
+      .style("font-size", "15px")
       .attr('transform', `translate(0,${height})`)
       .call(xAxis, this.chartProps.x);
 
     this.chartProps.height = height;
     this.chartProps.width = width;
 
-      svgBox.append('image')
-      .attr("class", "arrow")
-      .attr('xlink:href', "assets/arrow.png")
-      .attr('width', 14)
-      .attr('height', 14)
-      .attr('x', this.chartProps.width - 5)
-      .attr('opacity', '1')
-      .attr('y', this.chartProps.height - 7);
+      // svgBox.append('image')
+      // .attr("class", "arrow")
+      // .attr('xlink:href', "assets/arrow.png")
+      // .attr('width', 14)
+      // .attr('height', 14)
+      // .attr('x', this.chartProps.width - 5)
+      // .attr('opacity', '1')
+      // .attr('y', this.chartProps.height - 7);
 
     // Add the Y Axis
     const gy = svgBox.append('g')
       .attr('class', 'y axis')
       .call(yAxis, this.chartProps.y);
 
-    gy.selectAll(".tick line").style("stroke-dasharray", "5 5").style("opacity", "0.3");
-    // gx.select('path').style("opacity", "0");
+    gy.selectAll(".tick line").style("opacity", "0");
+    gx.selectAll(".tick line").style("opacity", "0");
+    gx.select('path').style("opacity", "0");
     gy.select('path').style("opacity", "0");
 
     // Setting the required objects in chartProps so they could be used to update the chart
@@ -243,14 +242,28 @@ export class GlobalComponent  implements OnInit, AfterViewChecked {
     svg.append("text")
     .attr("class", "y label")
     .attr("text-anchor", "middle")
-    .attr("x", 100)
+    .attr("x", 50)
     .attr("y", this.chartProps.height / 2)
     .style("font-size", "12px")
     .attr("dy", ".75em")
-    .text("Co2(grammes)");
+    .text("Co2(Tonnes)");
 
     d3.select('.threshold').style("opacity", 0);
     d3.select('.threshold_label').style("opacity", 0);
+  }
+
+  public setBarColors(data: Co2ByOriginByTime) {
+    console.log(data);
+    if (data.origin == 'deplacement') {
+      return '#FFDE59';
+    } else if (data.origin == 'maison') {
+      return '#FFBD59'
+    } else if (data.origin == 'achats') {
+      return '#8ADB22';
+    } else {
+      return '#56ACE0';
+    }
+
   }
 
   public trunc(numb:number): number {

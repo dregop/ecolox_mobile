@@ -244,7 +244,7 @@ export class LineChartTravelComponent implements OnInit {
         this.buildLinesDaysOfWeek();
       }, 100);
 
-      this.updateChart();
+      // this.updateChart();
       if (zoomActif) {
         this.onZoom = true;
       }
@@ -277,7 +277,7 @@ export class LineChartTravelComponent implements OnInit {
       }
 
       this.removeLinesDaysOfWeek();
-      this.updateChart();
+      // this.updateChart();
       if (zoomActif) {
         this.onZoom = true;
       }
@@ -332,7 +332,7 @@ export class LineChartTravelComponent implements OnInit {
       }
 
       this.removeLinesDaysOfWeek();
-      this.updateChart();
+      // this.updateChart();
       if (zoomActif) {
         this.onZoom = true;
       }
@@ -551,7 +551,7 @@ export class LineChartTravelComponent implements OnInit {
             this.valueslines.push(dayLine);
           }
 
-          this.updateChart();
+          // this.updateChart();
     
           if (zoomActif) {
             this.onZoom = true;
@@ -576,36 +576,36 @@ export class LineChartTravelComponent implements OnInit {
     // propage 
     this.travelService.$dataDrawnCo2TimeSerie.next(this.dataDrawnCo2TimeSerie);
 
-    // Set the dimensions of the graph
-    const margin = { top: 30, right: 20, bottom: 40, left: 50 };
-    let width = 1244  - margin.left - margin.right;
-    let height = 651  - margin.top - margin.bottom;
+   // Set the dimensions of the graph
+   const margin = { top: 30, right: 20, bottom: 40, left: 50 };
+   let width = 1244  - margin.left - margin.right;
+   let height = 651  - margin.top - margin.bottom;
 
-    const widthDivChart = document.getElementById('chart')?.clientWidth;
-    const heightDivChart = document.getElementById('chart')?.clientHeight;
-    if (widthDivChart && heightDivChart) {
-      width = widthDivChart - margin.left - margin.right;
-      height = heightDivChart - margin.top - margin.bottom;
-    }
-    
-    const svg = d3.select(this.chartElement.nativeElement)
-      .append('svg')
-      // .attr('width', width + margin.left + margin.right)
-      // .attr('height', height + margin.top + margin.bottom)
-      .attr('viewBox', '0 0 ' + ( width + margin.left + margin.right)  + ' ' + (height + margin.top + margin.bottom));
-      const svgBox = svg
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+   const widthDivChart = document.getElementById('chart')?.clientWidth;
+   const heightDivChart = document.getElementById('chart')?.clientHeight;
+   if (widthDivChart && heightDivChart) {
+     width = widthDivChart - margin.left - margin.right;
+     height = heightDivChart - margin.top - margin.bottom;
+   }
+   
+   const svg = d3.select(this.chartElement.nativeElement)
+     .append('svg')
+     // .attr('width', width + margin.left + margin.right)
+     // .attr('height', height + margin.top + margin.bottom)
+     .attr('viewBox', '0 0 ' + ( width + margin.left + margin.right)  + ' ' + (height + margin.top + margin.bottom));
+     const svgBox = svg
+     .append('g')
+     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Set the ranges
-    this.chartProps.x = d3.scaleTime().range([0, width]);
-    this.chartProps.y = d3.scaleLinear().range([height, 0]);
+   // Set the ranges
+   this.chartProps.x = d3.scaleTime().range([0, width]);
+   this.chartProps.y = d3.scaleLinear().range([height, 0]);
 
-    // Define the axes
-    const xAxis = (g: any, x: any) => g
-    .call(d3.axisBottom(x).tickFormat(this.travelService.multiFormat).tickPadding(width / 80));
-    var yAxis = (g: any, y: any) => g
-    .call(d3.axisLeft(y).tickPadding(height / 80).tickSize(-15000));
+   // Define the axes
+   const xAxis = (g: any, x: any) => g
+   .call(d3.axisBottom(x).ticks(5).tickFormat(this.travelService.multiFormat).tickPadding(width / 80));
+   var yAxis = (g: any, y: any) => g
+   .call(d3.axisLeft(y).ticks(5).tickPadding(height / 80).tickSize(-15000));
   
     this.travelService.scaleXYDomain(this.dataDrawnCo2TimeSerie, this.chartProps.x, this.chartProps.y);
   
@@ -669,7 +669,7 @@ export class LineChartTravelComponent implements OnInit {
     .attr("y", this.chartProps.height / 2)
     .style("font-size", "12px")
     .attr("dy", ".75em")
-    .text("Km/h");
+    .text("Co2(grammes)");
 
     // // Add treashold internet line
     this.dataThreshold = [{co2: this.thresholdCo2, date: this.dataDrawnCo2TimeSerie[0].date, speed: this.dataDrawnCo2TimeSerie[0].speed}, {co2: this.thresholdCo2, date: this.dataDrawnCo2TimeSerie[this.dataDrawnCo2TimeSerie.length - 1].date, speed: this.dataDrawnCo2TimeSerie[this.dataDrawnCo2TimeSerie.length - 1].speed}];
@@ -702,7 +702,7 @@ export class LineChartTravelComponent implements OnInit {
     // hide threshold internet too
     // valueline_threshold_internet.hide();
 
-    this.updateChart();
+    // this.updateChart();
 
     // We want the day button activated by default
     const lastDayButton = document.getElementById('day');
