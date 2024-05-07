@@ -138,7 +138,7 @@ export class ShoppingComponent implements OnInit {
 
   productSearch() {
     // Adding keyup Event Listerner on input field
-    const search$ = fromEvent(this.carSearchInput.nativeElement, 'input').pipe(
+    const search$ = fromEvent(this.carSearchInput.nativeElement, 'keyup touchend').pipe(
       map((event: any) => event.target.value),
       debounceTime(300),  
       distinctUntilChanged(),
@@ -156,6 +156,7 @@ export class ShoppingComponent implements OnInit {
   }
 
   getProductByName(name: string): Observable<any> {
+    
     //  return of(this.filterCars(name)) //used `of` to convert array to Observable
      return this.http.get<any>(API_URL + '/food?name=' + name)
      .pipe(
