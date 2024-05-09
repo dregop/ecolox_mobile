@@ -24,6 +24,7 @@ export class ShoppingComponent implements OnInit {
 
   @ViewChild('carSearchInput') carSearchInput!: ElementRef;
 
+  public debug!: any;
   public showSearches: boolean = false;
   public isSearching:boolean = false;
   public searchedProduct: any = [];
@@ -138,7 +139,7 @@ export class ShoppingComponent implements OnInit {
 
   productSearch() {
     // Adding keyup Event Listerner on input field
-    const search$ = fromEvent(this.carSearchInput.nativeElement, 'keyup touchend').pipe(
+    const search$ = fromEvent(this.carSearchInput.nativeElement, 'input').pipe(
       map((event: any) => event.target.value),
       debounceTime(300),  
       distinctUntilChanged(),
@@ -156,10 +157,11 @@ export class ShoppingComponent implements OnInit {
   }
 
   getProductByName(name: string): Observable<any> {
-    
+
     //  return of(this.filterCars(name)) //used `of` to convert array to Observable
      return this.http.get<any>(API_URL + '/food?name=' + name)
      .pipe(
+      tap(() => { this.debug = 'ça fonctionne'}),
          shareReplay() // prevent multiple http call
        ); 
    }
@@ -176,10 +178,12 @@ export class ShoppingComponent implements OnInit {
     this.showSearches = false;
 
     const addProduct = document.getElementById('add_product');
-    // const overlay_product = document.getElementById('overlay_product');
-    if (addProduct) {
+    const close_add_product = document.getElementById('close_add_product');
+    const overlay = document.getElementById('overlay');
+    if (addProduct && close_add_product && overlay) {
       addProduct.style.display = 'flex';
-      // overlay_product.style.display = 'flex';
+      close_add_product.style.display = 'flex';
+      overlay.style.display = 'flex';
     }
   }
 
@@ -284,9 +288,14 @@ export class ShoppingComponent implements OnInit {
   }
 
   public closeAddProduct(): void {
-    const overlay = document.getElementById('add_product');
-    if (overlay) {
+    const add_product = document.getElementById('add_product');
+    const close_add_product = document.getElementById('close_add_product');
+    const overlay = document.getElementById('overlay');
+    
+    if (add_product && overlay && close_add_product) {
+      add_product.style.display = 'none';
       overlay.style.display = 'none';
+      close_add_product.style.display = 'none';
     } 
   }
 
