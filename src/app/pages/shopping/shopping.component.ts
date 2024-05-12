@@ -126,6 +126,7 @@ export class ShoppingComponent implements OnInit {
 
   handleData(dataFromDb: any):string[] {
     let newData: string[] = [];
+    this.debug = 'je suis dans handle data';
     const names = dataFromDb['Nom du Produit en Français'];
     const co2ByKg = dataFromDb['kg CO2 eq/kg de produit'];
     for (const [key, value] of Object.entries(names)) {
@@ -133,7 +134,7 @@ export class ShoppingComponent implements OnInit {
       console.log({name: value, co2ByKg: co2ByKg[key]});
       this.dataSearch.push({name: value, co2ByKg: (co2ByKg[key] as number).toFixed(2)});
     };
-    this.debug = newData;
+    this.debug = dataFromDb;
     console.log(newData);
     return newData;
   }
