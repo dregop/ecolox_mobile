@@ -133,6 +133,7 @@ export class ShoppingComponent implements OnInit {
       console.log({name: value, co2ByKg: co2ByKg[key]});
       this.dataSearch.push({name: value, co2ByKg: (co2ByKg[key] as number).toFixed(2)});
     };
+    this.debug = newData;
     console.log(newData);
     return newData;
   }
