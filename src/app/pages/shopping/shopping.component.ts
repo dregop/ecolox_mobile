@@ -128,7 +128,11 @@ export class ShoppingComponent implements OnInit {
     let newData: string[] = [];
     const names = dataFromDb['Nom du Produit en Français'];
     const co2ByKg = dataFromDb['kg CO2 eq/kg de produit'];
+    for (const name in names) {
+      this.debug = name;
+    }
     for (const [key, value] of Object.entries(names)) {
+      this.debug = 'prout';
       newData.push(value as string);
       this.debug = value + ' ' + co2ByKg[key];
       console.log({name: value, co2ByKg: co2ByKg[key]});
