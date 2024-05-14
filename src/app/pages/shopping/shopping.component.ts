@@ -145,11 +145,7 @@ export class ShoppingComponent implements OnInit {
       debounceTime(300),  
       distinctUntilChanged(),
       tap(()=> this.isSearching = true),
-      switchMap((term) => {
-        const products = this.getProductByName(term);
-        this.debug = term + ' products : ' + JSON.stringify(products);
-
-        return term ? this.getProductByName(term) : ''}),
+      switchMap((term) => term ? this.getProductByName(term) : ''),
       tap(() => {
         this.isSearching = false,
         this.showSearches = true;
@@ -157,14 +153,16 @@ export class ShoppingComponent implements OnInit {
 
       search$.subscribe(data => {
         // this.debug = JSON.stringify(data);
-        this.isSearching = false
+        this.isSearching = false;
         this.searchedProduct = this.handleData(data);
       });
   }
 
   getProductByName(name: string): Observable<any> {
+    this.debug = name;
+
     //  return of(this.filterCars(name)) //used `of` to convert array to Observable
-     return this.http.get<any>(API_URL + '/food?name=' + name)
+     return this.http.get<any>(API_URL + '/food?name=po')
      .pipe(
       tap(() => {}),
          shareReplay() // prevent multiple http call
