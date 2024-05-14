@@ -152,18 +152,19 @@ export class ShoppingComponent implements OnInit {
       }));
 
       search$.subscribe(data => {
-        this.debug = JSON.stringify(data);
+        // this.debug = JSON.stringify(data);
         this.isSearching = false
         this.searchedProduct = this.handleData(data);
       });
   }
 
   getProductByName(name: string): Observable<any> {
+    this.debug = name;
 
     //  return of(this.filterCars(name)) //used `of` to convert array to Observable
      return this.http.get<any>(API_URL + '/food?name=' + name)
      .pipe(
-      tap(() => { this.debug = 'ça fonctionne'}),
+      tap(() => {}),
          shareReplay() // prevent multiple http call
        ); 
    }
