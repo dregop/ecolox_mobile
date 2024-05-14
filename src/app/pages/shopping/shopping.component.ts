@@ -24,7 +24,6 @@ export class ShoppingComponent implements OnInit {
 
   @ViewChild('carSearchInput') carSearchInput!: ElementRef;
 
-  public debug!: any;
   public showSearches: boolean = false;
   public isSearching:boolean = false;
   public searchedProduct: any = [];
@@ -128,7 +127,6 @@ export class ShoppingComponent implements OnInit {
     let newData: string[] = [];
     const names = dataFromDb['Nom du Produit en Français'];
     const co2ByKg = dataFromDb['kg CO2 eq/kg de produit'];
-    // this.debug = 'le nom : ' + names[0];
     for (const [key, value] of Object.entries(names)) {
       newData.push(value as string);
       console.log({name: value, co2ByKg: co2ByKg[key]});
@@ -152,21 +150,18 @@ export class ShoppingComponent implements OnInit {
       }));
 
       search$.subscribe(data => {
-        // this.debug = JSON.stringify(data);
         this.isSearching = false;
         this.searchedProduct = this.handleData(data);
       });
   }
 
   getProductByName(name: string): Observable<any> {
-    this.debug = name;
-
     //  return of(this.filterCars(name)) //used `of` to convert array to Observable
-     return this.http.get<any>(API_URL + '/food?name=' + name)
+     return this.http.get<any>(API_URL + '/food?name=' + name.toLowerCase())
      .pipe(
       tap(() => {}),
          shareReplay() // prevent multiple http call
-       ); 
+       );
    }
  
   //  filterCars(name: string) {
