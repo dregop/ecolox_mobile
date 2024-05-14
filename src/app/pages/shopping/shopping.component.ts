@@ -162,7 +162,7 @@ export class ShoppingComponent implements OnInit {
     this.debug = name;
 
     //  return of(this.filterCars(name)) //used `of` to convert array to Observable
-     return this.http.get<any>(API_URL + '/food?name=po')
+     return this.http.get<any>(API_URL + '/food?name=' + name)
      .pipe(
       tap(() => {}),
          shareReplay() // prevent multiple http call
