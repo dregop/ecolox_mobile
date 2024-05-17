@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {registerPlugin} from "@capacitor/core";
-import {BackgroundGeolocationPlugin} from "@capacitor-community/background-geolocation";
-const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>("BackgroundGeolocation");
 import { Geolocation } from '@capacitor/geolocation';
-import { h } from 'ionicons/dist/types/stencil-public-runtime';
 import { BackgroundGeolocationService } from 'src/app/services/background-geolocation.service';
 import { TravelService } from './services/travel.service';
+import {
+  BackgroundGeolocationPlugin,
+  ConfigureOptions,
+  Location,
+} from "cordova-background-geolocation-plugin";
+
+// access to its functions
+declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
 
 export  class Travel {
   name?: string;
@@ -24,6 +28,28 @@ export class TravelComponent implements OnInit {
   private options = {
     enableHighAccuracy: true,
     timeout: 5000,
+  };
+
+  private config: ConfigureOptions = {
+    // shared config
+    maxLocations: 100,
+    distanceFilter: 50,
+    stationaryRadius: 100,
+    desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
+    locationProvider: BackgroundGeolocation.RAW_PROVIDER,
+  
+    // android specific config
+    interval: 1000,
+    startForeground: true,
+    notificationsEnabled: true,
+    notificationTitle: "Tracking",
+    notificationText: "Your location is being tracked!",
+    notificationIconColor: "#424242",
+    notificationIconSmall: "ic_location",
+  
+    // ios specific config
+    saveBatteryOnBackground: true,
+    pauseLocationUpdates: false,
   };
   public travelTimeSerie: Travel[] = [];
   
@@ -45,7 +71,30 @@ export class TravelComponent implements OnInit {
     });
   }
 
+  // call this function whenever you are ready to track!
+  async init() {
+    // insert config
+    await BackgroundGeolocation.configure(this.config);
+    // create a listener for location updates
+    BackgroundGeolocation.on("location")
+      .subscribe((location) => this.updateLocation(location));
+    // this will trigger the permission request if not yet granted
+    await BackgroundGeolocation.start();
+  }
+
+  private updateLocation(location: Location) {
+    if (location == undefined) return;
+    console.log("Speed:", location.speed);
+    const speedSpan = document.getElementById('speed_background');
+    if (location.speed && speedSpan) {
+      speedSpan.innerHTML = location.speed  + ' km/h';
+    }
+    
+    // do it yourself below, what have you in mind?
+  }
+
   public start() {
+    this.init();
     // const _this = this;
     setInterval(async () => {
       this.geoloc = await Geolocation.watchPosition(this.options, (pos: any) => {
