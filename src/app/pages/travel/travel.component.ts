@@ -30,36 +30,17 @@ export class TravelComponent implements OnInit {
     timeout: 5000,
   };
 
-  private config: ConfigureOptions = {
-
-    debug: true,
-    interval: 1000,
-    fastestInterval: 5000,
-    activitiesInterval: 10000,
-    // shared config
-    maxLocations: 100,
-    distanceFilter: 50,
-    stationaryRadius: 100,
-    desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
-    locationProvider: BackgroundGeolocation.RAW_PROVIDER,
-  
-    // android specific config
-    startForeground: true,
-    notificationsEnabled: true,
-    notificationTitle: "Tracking",
-    notificationText: "Your location is being tracked!",
-    notificationIconColor: "#424242",
-    notificationIconSmall: "ic_location",
-  
-    // ios specific config
-    saveBatteryOnBackground: true,
-    pauseLocationUpdates: false,
-  };
+  private config!: ConfigureOptions;
   public travelTimeSerie: Travel[] = [];
   
   constructor(private geolocationService: BackgroundGeolocationService, private travelService: TravelService) {}
   
   ngOnInit(): void {
+    this.updateData();
+  }
+
+  updateData() {
+    console.log('#update Data');
     this.geolocationService.getData().subscribe({
       next: (val) => {
         if (val && val.data) {
@@ -77,7 +58,30 @@ export class TravelComponent implements OnInit {
 
   // call this function whenever you are ready to track!
   async init() {
-    console.log('init du Background geoloc');
+    this.config = {
+      // shared config
+      debug: true,
+      interval: 1000,
+      fastestInterval: 5000,
+      activitiesInterval: 10000,
+      maxLocations: 100,
+      distanceFilter: 50,
+      stationaryRadius: 100,
+      desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
+      locationProvider: BackgroundGeolocation.RAW_PROVIDER,
+    
+      // android specific config
+      startForeground: true,
+      notificationsEnabled: true,
+      notificationTitle: "Tracking",
+      notificationText: "Your location is being tracked!",
+      notificationIconColor: "#424242",
+      notificationIconSmall: "ic_location",
+    
+      // ios specific config
+      saveBatteryOnBackground: true,
+      pauseLocationUpdates: false,
+    };
     // insert config
     await BackgroundGeolocation.configure(this.config);
     // create a listener for location updates
@@ -131,11 +135,25 @@ export class TravelComponent implements OnInit {
   }
 
   private updateLocation(location: Location) {
+    this.updateData();
+
     if (location == undefined) return;
     console.log("Speed:", location.speed);
     const speedSpan = document.getElementById('speed_background');
     if (location.speed && speedSpan) {
       speedSpan.innerHTML = location.speed  + ' km/h';
+          this.travelTimeSerie.push({speed: location.speed, date: new Date(), co2: 0});
+          this.geolocationService.saveLocation({
+            'category': 'travel',
+            'data': JSON.stringify(this.travelTimeSerie)
+          }).subscribe({
+            next: () => {
+              console.log('data saved');
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
     }
   }
 
