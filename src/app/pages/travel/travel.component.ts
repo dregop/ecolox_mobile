@@ -31,6 +31,11 @@ export class TravelComponent implements OnInit {
   };
 
   private config: ConfigureOptions = {
+
+    debug: true,
+    interval: 1000,
+    fastestInterval: 5000,
+    activitiesInterval: 10000,
     // shared config
     maxLocations: 100,
     distanceFilter: 50,
@@ -39,7 +44,6 @@ export class TravelComponent implements OnInit {
     locationProvider: BackgroundGeolocation.RAW_PROVIDER,
   
     // android specific config
-    interval: 1000,
     startForeground: true,
     notificationsEnabled: true,
     notificationTitle: "Tracking",
@@ -81,6 +85,49 @@ export class TravelComponent implements OnInit {
       .subscribe((location) => this.updateLocation(location));
     // this will trigger the permission request if not yet granted
     await BackgroundGeolocation.start();
+
+    BackgroundGeolocation.on('start', function() {
+      console.log('[INFO] BackgroundGeolocation service has been started');
+    });  
+
+    BackgroundGeolocation.on('error', function(error) {
+      console.log('[ERROR] BackgroundGeolocation error:', error.code, error.message);
+    });
+
+    BackgroundGeolocation.on('authorization', function(status) {
+      console.log('[INFO] BackgroundGeolocation authorization status: ' + status);
+      if (status !== BackgroundGeolocation.AUTHORIZED) {
+        // we need to set delay or otherwise alert may not be shown
+        setTimeout(() => {
+          var showSettings = confirm('App requires location tracking permission. Would you like to open app settings?');
+          if (showSettings) {
+            return BackgroundGeolocation.showAppSettings();
+          } else return;
+        }, 1000);
+      }
+    });
+  
+    BackgroundGeolocation.on('background', function() {
+      console.log('[INFO] App is in background');
+      // you can also reconfigure service (changes will be applied immediately)
+      BackgroundGeolocation.configure({ debug: true });
+    });
+  
+    BackgroundGeolocation.on('foreground', function() {
+      console.log('[INFO] App is in foreground');
+      BackgroundGeolocation.configure({ debug: false });
+    });
+
+    BackgroundGeolocation.checkStatus(function(status) {
+      console.log('[INFO] BackgroundGeolocation service is running', status.isRunning);
+      console.log('[INFO] BackgroundGeolocation services enabled', status.locationServicesEnabled);
+      console.log('[INFO] BackgroundGeolocation auth status: ' + status.authorization);
+  
+      // you don't need to check status before start (this is just the example)
+      if (!status.isRunning) {
+        BackgroundGeolocation.start(); //triggers start on start event
+      }
+    });
   }
 
   private updateLocation(location: Location) {
@@ -90,8 +137,6 @@ export class TravelComponent implements OnInit {
     if (location.speed && speedSpan) {
       speedSpan.innerHTML = location.speed  + ' km/h';
     }
-    
-    // do it yourself below, what have you in mind?
   }
 
   public start() {
