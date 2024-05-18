@@ -73,6 +73,7 @@ export class TravelComponent implements OnInit {
 
   // call this function whenever you are ready to track!
   async init() {
+    console.log('init du Background geoloc');
     // insert config
     await BackgroundGeolocation.configure(this.config);
     // create a listener for location updates
@@ -96,27 +97,27 @@ export class TravelComponent implements OnInit {
   public start() {
     this.init();
     // const _this = this;
-    setInterval(async () => {
-      this.geoloc = await Geolocation.watchPosition(this.options, (pos: any) => {
-        const speedSpan = document.getElementById('speed');
-        if (pos && pos.coords && speedSpan) {
-          const speed = Math.trunc(pos.coords.speed as number * 3.6);
-          speedSpan.innerHTML = speed  + ' km/h';
-          this.travelTimeSerie.push({speed: speed, date: new Date(), co2: 0});
-          this.geolocationService.saveLocation({
-            'category': 'travel',
-            'data': JSON.stringify(this.travelTimeSerie)
-          }).subscribe({
-            next: () => {
-              console.log('data saved');
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          });
-        }
-      });
-    }, 2000);
+    // setInterval(async () => {
+    //   this.geoloc = await Geolocation.watchPosition(this.options, (pos: any) => {
+    //     const speedSpan = document.getElementById('speed');
+    //     if (pos && pos.coords && speedSpan) {
+    //       const speed = Math.trunc(pos.coords.speed as number * 3.6);
+    //       speedSpan.innerHTML = speed  + ' km/h';
+    //       this.travelTimeSerie.push({speed: speed, date: new Date(), co2: 0});
+    //       this.geolocationService.saveLocation({
+    //         'category': 'travel',
+    //         'data': JSON.stringify(this.travelTimeSerie)
+    //       }).subscribe({
+    //         next: () => {
+    //           console.log('data saved');
+    //         },
+    //         error: (error) => {
+    //           console.log(error);
+    //         }
+    //       });
+    //     }
+    //   });
+    // }, 2000);
   }
 
   public stop() {
