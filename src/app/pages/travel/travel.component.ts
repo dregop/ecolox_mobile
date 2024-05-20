@@ -7,6 +7,7 @@ import {
   ConfigureOptions,
   Location,
 } from "cordova-background-geolocation-plugin";
+import { API_URL } from 'src/environments/env.dev';
 
 // access to its functions
 declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
@@ -62,6 +63,7 @@ export class TravelComponent implements OnInit {
       // shared config
       debug: true,
       interval: 1000,
+      url: `${API_URL}/travel`,
       fastestInterval: 5000,
       activitiesInterval: 10000,
       maxLocations: 100,
@@ -141,7 +143,7 @@ export class TravelComponent implements OnInit {
     console.log("Speed:", location.speed);
     const speedSpan = document.getElementById('speed_background');
     if (location.speed && speedSpan) {
-      speedSpan.innerHTML = location.speed  + ' km/h';
+      speedSpan.innerHTML = Math.trunc(location.speed * 3.6)  + ' km/h'; // m/s in km/h
           this.travelTimeSerie.push({speed: location.speed, date: new Date(), co2: 0});
           this.geolocationService.saveLocation({
             'category': 'travel',
