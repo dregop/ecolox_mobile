@@ -143,7 +143,7 @@ export class TravelComponent implements OnInit {
     console.log("Speed:", location.speed);
     const speedSpan = document.getElementById('speed_background');
     if (location.speed && speedSpan) {
-      speedSpan.innerHTML = Math.trunc(location.speed * 3.6)  + ' km/h'; // m/s in km/h
+      speedSpan.innerHTML = Math.trunc(location.speed as number * 3.6)  + ' km/h'; // m/s in km/h
           this.travelTimeSerie.push({speed: location.speed, date: new Date(), co2: 0});
           this.geolocationService.saveLocation({
             'category': 'travel',
