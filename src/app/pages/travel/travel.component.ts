@@ -63,7 +63,6 @@ export class TravelComponent implements OnInit {
       // shared config
       debug: true,
       interval: 1000,
-      url: `${API_URL}/travel`,
       fastestInterval: 5000,
       activitiesInterval: 10000,
       maxLocations: 100,
