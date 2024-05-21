@@ -63,6 +63,7 @@ export class TravelComponent implements OnInit {
       // shared config
       debug: true,
       interval: 1000,
+      url: `${API_URL}/travel`,
       fastestInterval: 5000,
       activitiesInterval: 10000,
       maxLocations: 100,
@@ -85,9 +86,6 @@ export class TravelComponent implements OnInit {
     };
     // insert config
     await BackgroundGeolocation.configure(this.config);
-    // create a listener for location updates
-    BackgroundGeolocation.on("location")
-      .subscribe((location) => this.updateLocation(location));
     // this will trigger the permission request if not yet granted
     await BackgroundGeolocation.start();
 
@@ -133,6 +131,10 @@ export class TravelComponent implements OnInit {
         BackgroundGeolocation.start(); //triggers start on start event
       }
     });
+
+    // create a listener for location updates
+    BackgroundGeolocation.on("location")
+      .subscribe((location) => this.updateLocation(location));
   }
 
   private updateLocation(location: Location) {
