@@ -63,10 +63,8 @@ export class TravelComponent implements OnInit {
       // shared config
       debug: true,
       interval: 1000,
-      url: `${API_URL}/travel`,
-      fastestInterval: 5000,
-      activitiesInterval: 10000,
-      distanceFilter: 50,
+      fastestInterval: 2000,
+      activitiesInterval: 4000,
       stationaryRadius: 100,
       desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
       locationProvider: BackgroundGeolocation.RAW_PROVIDER,
@@ -112,12 +110,11 @@ export class TravelComponent implements OnInit {
     BackgroundGeolocation.on('background', function() {
       console.log('[INFO] App is in background');
       // you can also reconfigure service (changes will be applied immediately)
-      BackgroundGeolocation.configure({ debug: true });
+      // BackgroundGeolocation.configure({ debug: true });
     });
   
     BackgroundGeolocation.on('foreground', function() {
       console.log('[INFO] App is in foreground');
-      BackgroundGeolocation.configure({ debug: false });
     });
 
     BackgroundGeolocation.checkStatus(function(status) {
