@@ -66,7 +66,6 @@ export class TravelComponent implements OnInit {
       url: `${API_URL}/travel`,
       fastestInterval: 5000,
       activitiesInterval: 10000,
-      maxLocations: 100,
       distanceFilter: 50,
       stationaryRadius: 100,
       desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
@@ -135,6 +134,23 @@ export class TravelComponent implements OnInit {
     // create a listener for location updates
     BackgroundGeolocation.on("location")
       .subscribe((location) => this.updateLocation(location));
+
+    BackgroundGeolocation.on('stationary', function(stationaryLocation) {
+      console.log('I am in stationary mode ');
+    });
+
+    BackgroundGeolocation.on('abort_requested', function() {
+      console.log('[INFO] Server responded with 285 Updates Not Required');
+  
+      // Here we can decide whether we want stop the updates or not.
+      // If you've configured the server to return 285, then it means the server does not require further update.
+      // So the normal thing to do here would be to `BackgroundGeolocation.stop()`.
+      // But you might be counting on it to receive location updates in the UI, so you could just reconfigure and set `url` to null.
+    });
+  
+    BackgroundGeolocation.on('http_authorization', () => {
+      console.log('[INFO] App needs to authorize the http requests');
+    });
   }
 
   private updateLocation(location: Location) {
