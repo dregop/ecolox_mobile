@@ -66,9 +66,9 @@ export class TravelComponent implements OnInit {
       fastestInterval: 2000,
       activitiesInterval: 4000,
       stationaryRadius: 100,
-      desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
+      desiredAccuracy: BackgroundGeolocation.MEDIUM_ACCURACY,
       locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
-      distanceFilter: 10,
+      distanceFilter: 30,
     
       // android specific config
       startForeground: true,
