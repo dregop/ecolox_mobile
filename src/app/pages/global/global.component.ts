@@ -178,6 +178,18 @@ export class GlobalComponent  implements OnInit {
         .attr("height", (d) => this.chartProps.y(0) - this.chartProps.y(d.co2))
         .attr("width", 50);
 
+    this.bars      
+      .selectAll()
+      .data(this.dataGlobalMean)
+      .join("rect")
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", (d: { origin: any; }) => this.chartProps.x(d.origin) + margin.left)
+      .attr("y", (d: { co2: any; }) => this.chartProps.y(d.co2) + margin.top - 1)
+      .style("font-size", "12px")
+      .attr("dy", ".75em")
+      .text("Co2(Tonnes)");
+
     this.bars        
     .on('click', (d: any) => {
       this.navigateTo(d);

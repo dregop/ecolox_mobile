@@ -29,7 +29,7 @@ export class LineChartComponent implements OnInit {
   private onZoom = false;
   public isExtensionMessageDisplayed = false;
   public browserName: string = "Chrome";
-  private thresholdCo2 = 100000; // 100 kg de Co2eq
+  private thresholdCo2 = 2000; // 100 kg de Co2eq
   public userFeatures!: UserFeatures;
   public tonnes!: number;
   public degres!: number;

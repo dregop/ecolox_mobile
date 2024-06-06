@@ -63,7 +63,7 @@ export class ShoppingComponent implements OnInit {
           }
           const co2_shopping_resume = document.getElementById('co2_shopping_resume');
           if (co2_shopping_resume && gCO2Total > 0) {
-            co2_shopping_resume.innerHTML = 'Vous avez émis ' + gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e';
+            co2_shopping_resume.innerHTML = 'Vous avez émis ' + gCO2Total.toFixed(1) + ' kgCo<sub>2</sub>e sur la période';
           }
           const kmByCar_max = document.getElementById('kmByCar_max');
           if (kmByCar_max) {

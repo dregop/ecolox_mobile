@@ -36,18 +36,24 @@
   </div>
 
   <div class="basis-5/6 flex flex-col text-slate-700 items-center text-center">
-    <!-- <loader *ngIf="loading" class="w-full"></loader> -->
-      <div class="flex flex-col items-center w-full" (click)="displayOverLayMessage()">
+    <!-- <loader *ngIf="loading" class="w-full"></loader> QUAND LUTILISATEUR A UN NIVEAU--> 
+      <div class="flex flex-col items-center w-full mb-4" (click)="displayOverLayMessage()">
         <span class="text-slate-600 font-bold">Niveau Débutant</span>
         <img src="../../../assets/debutant_vignet.png" width="100" alt="Débutant Vignette" class="rounded-full">
         <div class="basis-1/3 bg-gray-200 rounded-full dark:bg-gray-700 h-[13px] w-3/4 mt-1">
           <div class="bg-amber-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style="width: 80%;height: 100%;">80%</div>
         </div>
-        <!-- Personaliser votre suivi en cliquant sur une des catégories du graph : -->
+         <!-- Personaliser votre suivi en cliquant sur une des catégories du graph : -->
       </div>
+      <!-- <div>
+        <div class="text-center font-semibold text-xl p-4">
+          Vous émettez en moyenne 9 Tonnes de CO<sub>2</sub>e sur un an
+        </div>
+      </div> -->
       <div #bar_chart id="bar_chart">
 
       </div>
+      <span class="text-xl m-4 text-md rounded-full bg-slate-200 border-2 p-2 mt-8">Personaliser votre suivi en cliquant sur une des catégories du graph</span>
 
     <!-- <div *ngIf="!IsChallengesStarted && !loading" class="flex flex-col justify-evenly items-center w-full h-full">
       <img src="../../../assets/seed.png" alt="Seed Budy" class="w-1/2 mt-[-40px]">
