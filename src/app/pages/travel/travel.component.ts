@@ -62,63 +62,63 @@ export class TravelComponent implements OnInit {
     this.config = {
       // shared config
       debug: true,
-      interval: 1000,
-      fastestInterval: 2000,
-      activitiesInterval: 4000,
-      stationaryRadius: 100,
-      desiredAccuracy: BackgroundGeolocation.MEDIUM_ACCURACY,
+      interval: 1000, // Adjust as needed
+      fastestInterval: 500, // Faster interval for high-speed movement
+      activitiesInterval: 10000, // Adjust based on activity updates
+      stationaryRadius: 50, // Smaller radius since trains move continuously
+      desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY, // Use high accuracy for precise updates
       locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
-      distanceFilter: 30,
-    
+      distanceFilter: 10, // Smaller distance filter for frequent updates
+  
       // android specific config
       startForeground: true,
       notificationsEnabled: true,
       notificationTitle: "Tracking",
-      notificationText: "Your location is being tracked!",
+      notificationText: "Your location is being tracked on the train!",
       notificationIconColor: "#424242",
       notificationIconSmall: "ic_location",
-    
+  
       // ios specific config
-      saveBatteryOnBackground: true,
-      pauseLocationUpdates: false,
+      saveBatteryOnBackground: false, // Do not save battery to ensure continuous tracking
+      pauseLocationUpdates: false, // Do not pause updates
     };
+  
     // insert config
     await BackgroundGeolocation.configure(this.config);
     // this will trigger the permission request if not yet granted
     await BackgroundGeolocation.start();
-
-    BackgroundGeolocation.on('start', function() {
+  
+    // Event listeners
+    BackgroundGeolocation.on('start', () => {
       console.log('[INFO] BackgroundGeolocation service has been started');
-    });  
-
-    BackgroundGeolocation.on('error', function(error) {
+    });
+  
+    BackgroundGeolocation.on('error', (error) => {
       console.log('[ERROR] BackgroundGeolocation error:', error.code, error.message);
     });
-
-    BackgroundGeolocation.on('authorization', function(status) {
+  
+    BackgroundGeolocation.on('authorization', (status) => {
       console.log('[INFO] BackgroundGeolocation authorization status: ' + status);
       if (status !== BackgroundGeolocation.AUTHORIZED) {
         // we need to set delay or otherwise alert may not be shown
         setTimeout(() => {
           var showSettings = confirm('App requires location tracking permission. Would you like to open app settings?');
           if (showSettings) {
-            return BackgroundGeolocation.showAppSettings();
-          } else return;
+            BackgroundGeolocation.showAppSettings();
+          }
         }, 1000);
       }
     });
   
-    BackgroundGeolocation.on('background', function() {
+    BackgroundGeolocation.on('background', () => {
       console.log('[INFO] App is in background');
-      // you can also reconfigure service (changes will be applied immediately)
-      // BackgroundGeolocation.configure({ debug: true });
     });
   
-    BackgroundGeolocation.on('foreground', function() {
+    BackgroundGeolocation.on('foreground', () => {
       console.log('[INFO] App is in foreground');
     });
-
-    BackgroundGeolocation.checkStatus(function(status) {
+  
+    BackgroundGeolocation.checkStatus((status) => {
       console.log('[INFO] BackgroundGeolocation service is running', status.isRunning);
       console.log('[INFO] BackgroundGeolocation services enabled', status.locationServicesEnabled);
       console.log('[INFO] BackgroundGeolocation auth status: ' + status.authorization);
@@ -128,22 +128,19 @@ export class TravelComponent implements OnInit {
         BackgroundGeolocation.start(); //triggers start on start event
       }
     });
-
-    // create a listener for location updates
-    BackgroundGeolocation.on("location")
-      .subscribe((location) => this.updateLocation(location));
-
-    BackgroundGeolocation.on('stationary', function(stationaryLocation) {
-      console.log('I am in stationary mode ');
-    });
-
-    BackgroundGeolocation.on('abort_requested', function() {
-      console.log('[INFO] Server responded with 285 Updates Not Required');
   
+    // Create a listener for location updates
+    BackgroundGeolocation.on("location").subscribe((location) => {
+      this.updateLocation(location);
+    });
+  
+    BackgroundGeolocation.on('stationary', (stationaryLocation) => {
+      console.log('I am in stationary mode');
+    });
+  
+    BackgroundGeolocation.on('abort_requested', () => {
+      console.log('[INFO] Server responded with 285 Updates Not Required');
       // Here we can decide whether we want stop the updates or not.
-      // If you've configured the server to return 285, then it means the server does not require further update.
-      // So the normal thing to do here would be to `BackgroundGeolocation.stop()`.
-      // But you might be counting on it to receive location updates in the UI, so you could just reconfigure and set `url` to null.
     });
   
     BackgroundGeolocation.on('http_authorization', () => {
