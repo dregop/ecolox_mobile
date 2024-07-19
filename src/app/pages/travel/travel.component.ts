@@ -66,7 +66,7 @@ export class TravelComponent implements OnInit {
       fastestInterval: 500, // Faster interval for high-speed movement
       activitiesInterval: 10000, // Adjust based on activity updates
       stationaryRadius: 50, // Smaller radius since trains move continuously
-      desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY, // Use high accuracy for precise updates
+      desiredAccuracy: BackgroundGeolocation.MEDIUM_ACCURACY, // Use high accuracy for precise updates
       locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
       distanceFilter: 10, // Smaller distance filter for frequent updates
   
