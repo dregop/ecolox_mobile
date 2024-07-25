@@ -37,15 +37,15 @@
 
     <!-- Permissions -->
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- background geolocation -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <!-- keep cpu running in sleep mode or background stuff -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- keep cpu running in sleep mode or background stuff
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
 
     <uses-feature android:name="android.hardware.location.gps" />
 </manifest>
