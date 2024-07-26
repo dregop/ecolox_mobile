@@ -37,7 +37,7 @@ export class TravelComponent implements OnInit {
   constructor(private geolocationService: BackgroundGeolocationService, private travelService: TravelService) {}
   
   ngOnInit(): void {
-    // this.updateData();
+    this.updateData();
   }
 
   updateData() {
@@ -62,13 +62,14 @@ export class TravelComponent implements OnInit {
     this.config = {
       // shared config
       debug: true,
-      interval: 60000,
-      fastestInterval: 30000,
+      interval: 1000,
+      fastestInterval: 5000,
       activitiesInterval: 10000,
-      stationaryRadius: 200,
+      maxLocations: 100,
+      distanceFilter: 50,
+      stationaryRadius: 100,
       desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
-      locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
-      distanceFilter: 100,
+      locationProvider: BackgroundGeolocation.RAW_PROVIDER,
     
       // android specific config
       startForeground: true,
@@ -84,6 +85,9 @@ export class TravelComponent implements OnInit {
     };
     // insert config
     await BackgroundGeolocation.configure(this.config);
+    // create a listener for location updates
+    BackgroundGeolocation.on("location")
+      .subscribe((location) => this.updateLocation(location));
     // this will trigger the permission request if not yet granted
     await BackgroundGeolocation.start();
 
@@ -111,11 +115,12 @@ export class TravelComponent implements OnInit {
     BackgroundGeolocation.on('background', function() {
       console.log('[INFO] App is in background');
       // you can also reconfigure service (changes will be applied immediately)
-      // BackgroundGeolocation.configure({ debug: true });
+      BackgroundGeolocation.configure({ debug: true });
     });
   
     BackgroundGeolocation.on('foreground', function() {
       console.log('[INFO] App is in foreground');
+      BackgroundGeolocation.configure({ debug: false });
     });
 
     BackgroundGeolocation.checkStatus(function(status) {
@@ -127,27 +132,6 @@ export class TravelComponent implements OnInit {
       if (!status.isRunning) {
         BackgroundGeolocation.start(); //triggers start on start event
       }
-    });
-
-    // create a listener for location updates
-    BackgroundGeolocation.on("location")
-      .subscribe((location) => this.updateLocation(location));
-
-    BackgroundGeolocation.on('stationary', function(stationaryLocation) {
-      console.log('I am in stationary mode ');
-    });
-
-    BackgroundGeolocation.on('abort_requested', function() {
-      console.log('[INFO] Server responded with 285 Updates Not Required');
-  
-      // Here we can decide whether we want stop the updates or not.
-      // If you've configured the server to return 285, then it means the server does not require further update.
-      // So the normal thing to do here would be to `BackgroundGeolocation.stop()`.
-      // But you might be counting on it to receive location updates in the UI, so you could just reconfigure and set `url` to null.
-    });
-  
-    BackgroundGeolocation.on('http_authorization', () => {
-      console.log('[INFO] App needs to authorize the http requests');
     });
   }
 
