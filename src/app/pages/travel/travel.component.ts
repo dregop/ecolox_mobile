@@ -37,7 +37,7 @@ export class TravelComponent implements OnInit {
   constructor(private geolocationService: BackgroundGeolocationService, private travelService: TravelService) {}
   
   ngOnInit(): void {
-    this.updateData();
+    // this.updateData();
   }
 
   updateData() {
@@ -57,7 +57,7 @@ export class TravelComponent implements OnInit {
     });
   }
 
-  // call this function whenever you are ready to track!
+  // call this function to track!
   async init() {
     this.config = {
       // shared config
