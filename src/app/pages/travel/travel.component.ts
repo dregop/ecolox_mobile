@@ -65,7 +65,6 @@ export class TravelComponent implements OnInit {
       interval: 1000,
       fastestInterval: 5000,
       activitiesInterval: 10000,
-      maxLocations: 100,
       distanceFilter: 50,
       stationaryRadius: 100,
       desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
