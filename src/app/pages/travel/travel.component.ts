@@ -62,13 +62,13 @@ export class TravelComponent implements OnInit {
     this.config = {
       // shared config
       debug: true,
-      interval: 1000,
-      fastestInterval: 5000,
+      interval: 60000,
+      fastestInterval: 30000,
       activitiesInterval: 10000,
-      distanceFilter: 50,
-      stationaryRadius: 100,
+      stationaryRadius: 200,
       desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
-      locationProvider: BackgroundGeolocation.RAW_PROVIDER,
+      locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
+      distanceFilter: 100,
     
       // android specific config
       startForeground: true,
@@ -84,9 +84,7 @@ export class TravelComponent implements OnInit {
     };
     // insert config
     await BackgroundGeolocation.configure(this.config);
-    // create a listener for location updates
-    BackgroundGeolocation.on("location")
-      .subscribe((location) => this.updateLocation(location));
+
     // this will trigger the permission request if not yet granted
     await BackgroundGeolocation.start();
 
@@ -110,6 +108,10 @@ export class TravelComponent implements OnInit {
         }, 1000);
       }
     });
+
+    // create a listener for location updates
+    BackgroundGeolocation.on("location")
+      .subscribe((location) => this.updateLocation(location));
   
     BackgroundGeolocation.on('background', function() {
       console.log('[INFO] App is in background');
