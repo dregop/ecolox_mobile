@@ -62,13 +62,14 @@ export class TravelComponent implements OnInit {
     this.config = {
       // shared config
       debug: true,
-      interval: 60000,
-      fastestInterval: 30000,
-      activitiesInterval: 10000,
-      stationaryRadius: 200,
+      interval: 10000, // 10sec
+      fastestInterval: 60000, // 1min Fastest rate in milliseconds at which your app can handle location updates.
+      activitiesInterval: 1000, /* Rate in milliseconds at which activity recognition occurs.
+      * Larger values will result in fewer activity detections while improving battery life. */
+      stationaryRadius: 100,
       desiredAccuracy: BackgroundGeolocation.LOW_ACCURACY,
-      locationProvider: BackgroundGeolocation.DISTANCE_FILTER_PROVIDER,
-      distanceFilter: 100,
+      locationProvider: BackgroundGeolocation.RAW_PROVIDER,
+      distanceFilter: 50, // When stopped, the minimum distance the device must move beyond the stationary location for aggressive background-tracking to engage.
     
       // android specific config
       startForeground: true,
