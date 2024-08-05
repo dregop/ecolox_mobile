@@ -16,9 +16,11 @@ dependencies {
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-status-bar')
-
+    implementation "com.google.android.gms:play-services-location:11+"
+    implementation "androidx.core:core:1.1.0"
+    implementation "androidx.appcompat:appcompat:1.1.0"
 }
-
+apply from: "../../node_modules/cordova-background-geolocation-plugin/android/dependencies.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

@@ -8,6 +8,8 @@ import {
   Location,
 } from "cordova-background-geolocation-plugin";
 import { API_URL } from 'src/environments/env.dev';
+import { PluginListenerHandle } from '@capacitor/core';
+import { Motion } from '@capacitor/motion';
 
 // access to its functions
 declare const BackgroundGeolocation: BackgroundGeolocationPlugin;
@@ -26,6 +28,7 @@ export  class Travel {
 })
 export class TravelComponent implements OnInit {
   private geoloc: any;
+  private accelHandler!: PluginListenerHandle;
   private options = {
     enableHighAccuracy: true,
     timeout: 5000,
@@ -160,8 +163,20 @@ export class TravelComponent implements OnInit {
     }
   }
 
-  public start() {
+  public async start() {
     this.init();
+
+    try {
+       (DeviceMotionEvent as any).requestPermission();
+    } catch (e) {
+      // Handle error
+      return;
+    }
+
+    // Once the user approves, can start listening:
+    this.accelHandler = await Motion.addListener('accel', (event: any) => {
+      console.log('Device motion event:', event);
+    });
     // const _this = this;
     // setInterval(async () => {
     //   this.geoloc = await Geolocation.watchPosition(this.options, (pos: any) => {
@@ -188,6 +203,9 @@ export class TravelComponent implements OnInit {
 
   public stop() {
     Geolocation.clearWatch(this.geoloc);
+    if (this.accelHandler) {
+      this.accelHandler.remove();
+    }
   }
 
   // public start() {
