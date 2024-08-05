@@ -164,7 +164,7 @@ export class TravelComponent implements OnInit {
   }
 
   public async start() {
-    this.init();
+    // this.init();
 
     try {
        (DeviceMotionEvent as any).requestPermission();
