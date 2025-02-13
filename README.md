@@ -2,12 +2,11 @@
 
 # ÉcoBuddy Mobile
 
-ÉcoBuddy est une application mobile visant à aider les utilisateurs à estimer et réduire leur empreinte carbone grâce à une série de questions optimisées.
+ÉcoBuddy est une application mobile visant à aider les utilisateurs à estimer et réduire leur empreinte carbone en se connectant à différent traqueur.
 
 ## Technologies
 - **Framework** : Ionic 3  
-- **Langage** : TypeScript  
-- **Backend** : API REST (optionnelle, selon l'implémentation actuelle)
+- **Langage** : TypeScript
 
 ## Installation et Lancement
 
@@ -25,3 +24,7 @@ cd eco-buddy-mobile
 npm install
 
 ionic serve
+```
+
+Traqueur internet extension chrome : https://chromewebstore.google.com/detail/ecobuddy/fobapffpfeacngdlddcjadfkaegidece
+
